@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import './styles.css';
+import './MainPage.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import ServerConnection from '../../utils/ServerConnection';
 import ErrorReportModal from '../ErrorReportModal';
 import ReportsTable from '../ReportsTable';
-import {Route, BrowserRouter} from "react-router-dom";
+import { Route, BrowserRouter } from "react-router-dom";
+import Clock from 'react-live-clock'
 
 const server_ip = "http://127.0.0.1"
 const server_port = "4000"
@@ -14,16 +15,20 @@ export default function MainPage() {
     const self = document.getElementById("main-page"); //Getting current element manually as no better method found
     const serverConnection = new ServerConnection(server_ip, server_port);
 
+    const dictionary = {
+        user: "משתמש",
+        system_name: "מערכת דיווח תקבלות"
+    }
     const emptyDetails = {
         report_description: '',
-        report_fault_date: null, 
-        report_location: '', 
-        report_platform: 0, 
-        report_platform_num: 0,  
-        report_reporting_date: null, 
-        report_reporter_username: '', 
-        report_sub_platform: 0, 
-        report_system: 0, 
+        report_fault_date: null,
+        report_location: '',
+        report_platform: 0,
+        report_platform_num: 0,
+        report_reporting_date: null,
+        report_reporter_username: '',
+        report_sub_platform: 0,
+        report_system: 0,
         report_summary: ''
     }
 
@@ -90,41 +95,43 @@ export default function MainPage() {
     }
 
     return (
-        <div id="main-page" className="container-fluid" style={{paddingRight: 0, paddingLeft: 0}}>
-            <nav className="navbar navbar-dark bg-primary sticky-top pull-right">
+        <div id="main-page" className="container-fluid" style={{ paddingRight: 0, paddingLeft: 0 }}>
+            <nav className="navbar navbar-dark sticky-top pull-right">
+                <label>{dictionary.system_name}</label>
+                <Clock format={'HH:mm:ss'} ticking={true} timezone={'Jerusalem/Israel'} />
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <FontAwesomeIcon icon={faBars}/>
+                    <FontAwesomeIcon icon={faBars} />
                 </button>
             </nav>
-			<div id="main-container" className="container-fluid">
+            <div id="main-container" className="container-fluid">
                 <BrowserRouter basename="/app">
-                    <Route exact path="/" render={() => <ReportsTable 
+                    <Route exact path="/" render={() => <ReportsTable
                         id="main-reports-table"
-                        getReports={getReports} 
-                        serverConnection={serverConnection} 
+                        getReports={getReports}
+                        serverConnection={serverConnection}
                         tableData={tableData}
-                        platforms = {platforms} 
-                        subPlatforms = {subPlatforms} 
-                        systems = {systems} 
-                        appElement={self} 
-                        getSystems = {getSystems}
-                        getPlatforms = {getPlatforms}
-                        getSubPlatforms = {getSubPlatforms}/>
+                        platforms={platforms}
+                        subPlatforms={subPlatforms}
+                        systems={systems}
+                        appElement={self}
+                        getSystems={getSystems}
+                        getPlatforms={getPlatforms}
+                        getSubPlatforms={getSubPlatforms} />
                     }></Route>
                 </BrowserRouter>
                 <ErrorReportModal
                     id="error-report-modal"
                     serverConnection={serverConnection}
-                    reportDetails={emptyDetails} 
+                    reportDetails={emptyDetails}
                     isModalOpen={isNewReportModalOpen}
                     closeModal={closeNewReportModal}
-                    platforms = {platforms} 
-                    subPlatforms = {subPlatforms} 
-                    systems = {systems} 
-                    appElement={self} 
-                    getSystems = {getSystems}
-                    getPlatforms = {getPlatforms}
-                    getSubPlatforms = {getSubPlatforms}/>
+                    platforms={platforms}
+                    subPlatforms={subPlatforms}
+                    systems={systems}
+                    appElement={self}
+                    getSystems={getSystems}
+                    getPlatforms={getPlatforms}
+                    getSubPlatforms={getSubPlatforms} />
                 <div className="button-wrapper">
                     <button onClick={openNewReportModal} type="button" className="btn btn-outline-primary">פתח תקלה חדשה -></button>
                 </div>

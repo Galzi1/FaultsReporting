@@ -4,6 +4,9 @@ html, body, #root {
     direction: rtl;
 }
 
+.navbar {
+    background-color: #1B507C !important;
+}
 /* .form-wrapper {
     width: 50%;
 } */

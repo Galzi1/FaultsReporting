@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Modal from 'react-modal'
 // import '../styles/MainPage.css';
-import '../MainPage/styles.css';
+import '../MainPage/MainPage.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 
