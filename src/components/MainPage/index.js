@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import ServerConnection from '../../utils/ServerConnection';
 import ErrorReportModal from '../ErrorReportModal';
+import logoRapat from '../../Images/mantak.png'
 import ReportsTable from '../ReportsTable';
 import { Route, BrowserRouter } from "react-router-dom";
 import Clock from 'react-live-clock'
@@ -16,8 +17,9 @@ export default function MainPage() {
     const serverConnection = new ServerConnection(server_ip, server_port);
 
     const dictionary = {
-        user: "משתמש",
-        system_name: "מערכת דיווח תקבלות"
+        user: "יוסי כהן",
+        system_name: "מערכת דיווח תקבלות",
+        new_fault: "פתח תקלה חדשה"
     }
     const emptyDetails = {
         report_description: '',
@@ -96,29 +98,31 @@ export default function MainPage() {
 
     return (
         <div id="main-page" className="container-fluid" style={{ paddingRight: 0, paddingLeft: 0 }}>
-            <nav className="navbar navbar-dark sticky-top pull-right">
-                <label>{dictionary.system_name}</label>
-                <Clock format={'HH:mm:ss'} ticking={true} timezone={'Jerusalem/Israel'} />
+            <nav className="navbar header">
+                <Clock className={'clock'} format={'HH:mm:ss'} ticking={true} timezone={'Jerusalem/Israel'} />
+                <p>{dictionary.system_name}</p>
+                <img src={logoRapat} alt="Logo" className="logo"></img>
+            </nav>
+            <nav className="navbar nav">
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <FontAwesomeIcon icon={faBars} />
                 </button>
+                <button onClick={openNewReportModal} type="button" className="btn">{dictionary.new_fault}</button>
+                <p>{dictionary.user}</p>
             </nav>
             <div id="main-container" className="container-fluid">
-                <BrowserRouter basename="/app">
-                    <Route exact path="/" render={() => <ReportsTable
-                        id="main-reports-table"
-                        getReports={getReports}
-                        serverConnection={serverConnection}
-                        tableData={tableData}
-                        platforms={platforms}
-                        subPlatforms={subPlatforms}
-                        systems={systems}
-                        appElement={self}
-                        getSystems={getSystems}
-                        getPlatforms={getPlatforms}
-                        getSubPlatforms={getSubPlatforms} />
-                    }></Route>
-                </BrowserRouter>
+                <ReportsTable
+                    id="main-reports-table"
+                    getReports={getReports}
+                    serverConnection={serverConnection}
+                    tableData={tableData}
+                    platforms={platforms}
+                    subPlatforms={subPlatforms}
+                    systems={systems}
+                    appElement={self}
+                    getSystems={getSystems}
+                    getPlatforms={getPlatforms}
+                    getSubPlatforms={getSubPlatforms} />
                 <ErrorReportModal
                     id="error-report-modal"
                     serverConnection={serverConnection}
@@ -132,10 +136,8 @@ export default function MainPage() {
                     getSystems={getSystems}
                     getPlatforms={getPlatforms}
                     getSubPlatforms={getSubPlatforms} />
-                <div className="button-wrapper">
-                    <button onClick={openNewReportModal} type="button" className="btn btn-outline-primary">פתח תקלה חדשה -></button>
-                </div>
+
             </div>
-        </div>
+        </div >
     )
 }
