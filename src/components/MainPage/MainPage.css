@@ -6,8 +6,12 @@ body,
     margin: auto 0;
     padding: 0;
     direction: rtl;
-    background-color: #1B507C !important;
-    color: white;
+    background-color:rgb(187, 185, 185) !important;
+    color: #1B507C;
+}
+
+.white_text{
+color: white;
 }
 
 .mainPage .header {
@@ -17,6 +21,7 @@ body,
     justify-content: space-between;
     align-items: center;
     padding: 1vw;
+    background-color: #1B507C !important;
 }
 
 
@@ -28,18 +33,19 @@ body,
     position: relative;
     text-align: center;
     font-weight: bold;
-    font-size: 1.7rem;
-    top: 0.8vh;
+    font-size: 1.6rem;
+    top: 0.9vh;
 
 }
 
 .mainPage .header .clock {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     font-weight: bold;
     width: 4vw;
 }
 
 .mainPage .nav {
+    background-color: #1B507C !important;
     height: 7vh;
     width: 100%;
     display: flex;

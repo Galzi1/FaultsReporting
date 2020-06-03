@@ -9,7 +9,9 @@ import Fab from '@material-ui/core/Fab';
 import { withStyles } from '@material-ui/core/styles';
 import ViewEditReportModal from '../ViewEditReportModal/ReportModal';
 import './ReportsTable.css';
-import reload_icon from '../../Images/reload_icon.png'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 
 export default function ReportsTable(props) {
     // Handle Props
@@ -34,7 +36,8 @@ export default function ReportsTable(props) {
     const dictionary = {
         user: "יוסי כהן",
         system_name: "מערכת דיווח תקבלות",
-        new_fault: "פתח תקלה חדשה"
+        new_fault: "פתח תקלה חדשה",
+        fault_report: "דיווח תקלות",
     }
 
     // Custom Styles
@@ -113,13 +116,12 @@ export default function ReportsTable(props) {
     }
 
     return (
-        <div className="Table">
-            <div className="header">
-
-                <img src={reload_icon} alt="reload_icon" className={"reload_icon"}></img>
-                <p>דיווח תקלות</p>
-                <Fab aria-label="add" size="small" className={"add_button"}>
-                    <span>+</span>
+        <div>
+            <div className="Header">
+                <FontAwesomeIcon className="reload_icon" icon={faSyncAlt} size="2x"/>
+                <span>{dictionary.fault_report}</span>
+                <Fab aria-label="add" size="small" className="add_button">
+                    <FontAwesomeIcon size="xs" icon={faPlus} />
                 </Fab>
             </div>
             <ViewEditReportModal

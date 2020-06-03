@@ -1,14 +1,22 @@
-.Table .header .reload_icon {
-    width: 1.6vw;
-    margin-right: 1.5vw;
+.Header .reload_icon {
+    margin-right:2.5vw;
 }
 
-.Table .header {
+.Header {
+    position: relative;
+    height: 7vh;
+    width: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
-.Table .header .add_button{
-    font-size: 1.2rem;
-    margin-left: 0.7vw;
+.Header span{
+    font-size: 2rem;
+    font-weight: bold;
+
+}
+
+.Header .add_button{
+    margin-left: 1.7vw;
 }
