@@ -36,7 +36,7 @@ body,
 .mainPage .header .clock {
     font-size: 1.1rem;
     font-weight: bold;
-    width: 1vw;
+    width: 4vw;
 }
 
 .mainPage .nav {
@@ -46,18 +46,18 @@ body,
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid white;
-    margin-top: 0.5vh;
+    margin-bottom: 3vh;
 }
 
 .mainPage .nav p {
     text-align: center;
     font-weight: bold;
-    font-size: 1.3rem;
-    margin-left: 1.2vw;
+    font-size: 1.2rem;
+    margin-right: 1.6vw;
 }
 
 .mainPage .nav .menu{
     color: white;
     border:1px solid white;
-    margin-right: 1.8vw;
+    margin-left: 1.7vw;
 }
