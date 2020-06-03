@@ -7,12 +7,12 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Fab from '@material-ui/core/Fab';
 import { withStyles } from '@material-ui/core/styles';
-import ViewEditReportModal from '../ViewEditReportModal/ReportModal';
 import './ReportsTable.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 
 
 export default function ReportsTable(props) {
@@ -32,14 +32,34 @@ export default function ReportsTable(props) {
     // State
     const [selectedReport, setSelectedReport] = useState(null);
     const [addReportModal, setAddReportModal] = useState(false);
+    const [fault_desc, setFault_Desc] = useState('');
+    const [fault_title, setFault_Title] = useState('');
+    const [fault_data, setFault_Date] = useState('');
+    const [fault_location, setFault_Location] = useState('');
+    const [fault_platform, setFault_Platform] = useState('');
+    const [fault_subPlatform, setFault_SubPlatform] = useState('');
+    const [fault_system, setFault_System] = useState('');
+    const [fault_idPlatform, setFault_idPlatform] = useState('');
+
+
     ////
 
 
     const dictionary = {
         user: "יוסי כהן",
         system_name: "מערכת דיווח תקבלות",
-        new_fault: "פתח תקלה חדשה",
-        fault_report: "דיווח תקלות",
+        newReport: "דיווח תקלות",
+        add: "הוספה תקלה",
+        save: "שמור",
+        newReport_title: "תקציר תקלה",
+        newReport_date: "תאריך התקלה",
+        newReport_location: "מיקום",
+        newReport_platform: "פלטפורמה",
+        newReport_subplatform: "תת פלטפורמה",
+        newReport_system: "מערכת",
+        newReport_description: "תיאור תקלה",
+        newReport_idPlatform: "מספר פלטפורמה",
+        detail_text: "נא למלא את כל הפרטים",
     }
 
     // Custom Styles
@@ -80,7 +100,7 @@ export default function ReportsTable(props) {
     const openAddReportModal = () => setAddReportModal(true);
 
     const closeAddReportModal = () => setAddReportModal(false);
-    
+
     useEffect(() => {
         getReports();
     }, []);
@@ -115,7 +135,7 @@ export default function ReportsTable(props) {
         <div>
             <div className="Header">
                 <FontAwesomeIcon className="reload_icon" icon={faSyncAlt} size="2x" />
-                <span>{dictionary.fault_report}</span>
+                <span>{dictionary.newReport}</span>
                 <Fab aria-label="add" size="small" className="add_button" onClick={openAddReportModal}>
                     <FontAwesomeIcon size="xs" icon={faPlus} />
                 </Fab>
@@ -141,22 +161,47 @@ export default function ReportsTable(props) {
             </TableContainer>
             <Modal
                 show={addReportModal} onHide={closeAddReportModal}
-                className="Registration"
+                size="lg"
+                className="AddReport"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
             >
                 <Modal.Header className="header">
-                    <Modal.Title>{dictionary.registration}</Modal.Title>
+                    <Modal.Title>{dictionary.add}</Modal.Title>
                     <Modal.Title className="close-modal-btn" onClick={closeAddReportModal}>x</Modal.Title>
                 </Modal.Header>
-                <Modal.Body className="body">
-                    <label>{dictionary.registration_text + ':'}</label>
+                <Modal.Body>
                     <div className="form">
-                        <label>{dictionary.user + ':'}</label>
+                        <label style={{ fontStyle: "italic", color: "grey" }}>{dictionary.detail_text + ':'}</label>
+                        <label>{dictionary.newReport_title + ':'}</label>
+                        <input name='title' type="text" onChange={e => setFault_Title(e.target.value)} required />
+                        <label>{dictionary.newReport_date + ':'}</label>
+                        <input name='data' type="text" onChange={e => setFault_Date(e.target.value)} required />
+                        <label>{dictionary.newReport_location + ':'}</label>
+                        <input name='location' type="text" onChange={e => setFault_Location(e.target.value)} required />
+                        <label>{dictionary.newReport_idPlatform + ':'}</label>
+                        <input name='idPlatform' type="number" onChange={e => setFault_idPlatform(e.target.value)} required />
+                        <label>{dictionary.newReport_platform + ':'}</label>
+                        <select name='platform' onChange={e => setFault_Platform(e.target.value)} required>
+                            <option value="0">פלטפורמה</option>
+                            <option value="1">פלטפורמה</option>
+                        </select>
+                        <label>{dictionary.newReport_subplatform + ':'}</label>
+                        <select name='suvplatform' onChange={e => setFault_SubPlatform(e.target.value)} required>
+                            <option value="0">תת-פלטפורמה</option>
+                            <option value="1">תת-פלטפורמה</option>
+                        </select>
+                        <label>{dictionary.newReport_system + ':'}</label>
+                        <select name='system' onChange={e => setFault_System(e.target.value)} required>
+                            <option value="0">מערכת</option>
+                            <option value="1">מערכת</option>
+                        </select>
+                        <label>{dictionary.newReport_description + ':'}</label>
+                        <input name='desc' type="text" onChange={e => setFault_Desc(e.target.value)} required />
                     </div>
                 </Modal.Body>
                 <Modal.Footer className="footer">
-                    {/* <Button className="btn btn-success" onClick={onRegistration}>{dictionary.save} </Button> */}
+                    <Button className="btn btn-success">{dictionary.save} </Button>
                 </Modal.Footer>
             </Modal>
 
