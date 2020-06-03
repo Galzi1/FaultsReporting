@@ -99,21 +99,19 @@ export default function MainPage() {
 
     return (
         <div className="mainPage">
-            <nav className="header">
+            <div className="header">
 
                 <img src={logoRapat} alt="Logo" className="logo"></img>
                 <p>{dictionary.system_name}</p>
-                <div className={'clock'} >
-                    <Clock format={'HH:mm:ss'} ticking={true} timezone={'Jerusalem/Israel'} />
-                </div>
-            </nav>
-            <nav className="nav">
+                <Clock className={'clock'} format={'HH:mm:ss'} ticking={true} timezone={'Jerusalem/Israel'} />
+            </div>
+            <div className="nav">
                 <p>{dictionary.user}</p>
                 <button className="navbar-toggler menu" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <FontAwesomeIcon icon={faBars} />
                 </button>
 
-            </nav>
+            </div>
             <div>
                 <ReportsTable
                     getReports={getReports}

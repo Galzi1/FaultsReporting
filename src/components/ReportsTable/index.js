@@ -5,9 +5,11 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Fab from '@material-ui/core/Fab';
 import { withStyles } from '@material-ui/core/styles';
 import ViewEditReportModal from '../ViewEditReportModal/ReportModal';
 import './ReportsTable.css';
+import reload_icon from '../../Images/reload_icon.png'
 
 export default function ReportsTable(props) {
     // Handle Props
@@ -112,6 +114,14 @@ export default function ReportsTable(props) {
 
     return (
         <div className="Table">
+            <div className="header">
+
+                <img src={reload_icon} alt="reload_icon" className={"reload_icon"}></img>
+                <p>דיווח תקלות</p>
+                <Fab color="secondary" aria-label="add" size="small" className={"add_button"}>
+                    <span>+</span>
+                </Fab>
+            </div>
             <ViewEditReportModal
                 id="view-edit-report-modal"
                 serverConnection={serverConnection}
@@ -125,10 +135,6 @@ export default function ReportsTable(props) {
                 getSystems={getSystems}
                 getPlatforms={getPlatforms}
                 getSubPlatforms={getSubPlatforms} />
-            <div className="logos-box">
-                <span>דיווח תקלות</span>
-                <button type="button" className="btn">{dictionary.new_fault}</button>
-            </div>
             <TableContainer style={tableWrapperStyle}>
                 <Table>
                     <TableHead className="bg-primary">
