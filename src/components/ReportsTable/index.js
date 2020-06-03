@@ -7,9 +7,9 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { withStyles } from '@material-ui/core/styles';
 import ViewEditReportModal from '../ViewEditReportModal/ReportModal';
-import './styles.css';
+import './ReportsTable.css';
 
-export default function ReportsTable(props){
+export default function ReportsTable(props) {
     // Handle Props
     const getReports = props.getReports;
     const serverConnection = props.serverConnection;
@@ -28,16 +28,23 @@ export default function ReportsTable(props){
     const [isViewEditReportModalOpen, setIsViewEditReportModalOpen] = useState(false);
     ////
 
+
+    const dictionary = {
+        user: "יוסי כהן",
+        system_name: "מערכת דיווח תקבלות",
+        new_fault: "פתח תקלה חדשה"
+    }
+
     // Custom Styles
     const StyledTableCell = withStyles((theme) => ({
         head: {
-            fontSize: "1.1rem", 
-            fontWeight: "bold", 
-            padding: 8,  
+            fontSize: "1.1rem",
+            fontWeight: "bold",
+            padding: 8,
             color: theme.palette.common.white
         },
         body: {
-            fontSize: "1.1rem", 
+            fontSize: "1.1rem",
             padding: 8
         },
     }))(TableCell);
@@ -51,9 +58,9 @@ export default function ReportsTable(props){
     }))(TableRow);
 
     const tableWrapperStyle = {
-        paddingBottom: "2%", 
-        paddingTop: "2%", 
-        paddingLeft: "2%", 
+        paddingBottom: "2%",
+        paddingTop: "2%",
+        paddingLeft: "2%",
         paddingRight: "2%"
     };
     ////
@@ -70,7 +77,7 @@ export default function ReportsTable(props){
     function closeViewEditReportModal() {
         getReports(() => {
             setIsViewEditReportModalOpen(false);
-        }); 
+        });
     }
 
     useEffect(() => {
@@ -79,13 +86,13 @@ export default function ReportsTable(props){
 
     function renderTableData() {
         return tableData.map((report, index) => {
-            const { 
-                _id, 
-                report_summary, 
-                report_reporting_date, 
-                report_priority, 
-                report_reporter_username, 
-                report_platform, 
+            const {
+                _id,
+                report_summary,
+                report_reporting_date,
+                report_priority,
+                report_reporter_username,
+                report_platform,
                 report_status
             } = report //destructuring
             return (
@@ -94,7 +101,7 @@ export default function ReportsTable(props){
                     <StyledTableCell align="center">{report_summary}</StyledTableCell>
                     <StyledTableCell align="center">{new Date(report_reporting_date).toLocaleDateString("he-IL", "short") || "-"}</StyledTableCell>
                     <StyledTableCell align="center">{report_priority || "טרם הוגדר"}</StyledTableCell>
-                    <StyledTableCell align="center">{"-"}</StyledTableCell>  
+                    <StyledTableCell align="center">{"-"}</StyledTableCell>
                     <StyledTableCell align="center">{report_reporter_username}</StyledTableCell>
                     <StyledTableCell align="center">{report_platform}</StyledTableCell>
                     <StyledTableCell align="center">{report_status || "טרם עודכן"}</StyledTableCell>
@@ -103,23 +110,24 @@ export default function ReportsTable(props){
         })
     }
 
-    return(
-        <div className="table-page">
-            <ViewEditReportModal 
-                    id="view-edit-report-modal" 
-                    serverConnection={serverConnection}
-                    reportDetails={selectedReport} 
-                    isModalOpen={isViewEditReportModalOpen} 
-                    closeModal={closeViewEditReportModal} 
-                    platforms = {platforms} 
-                    subPlatforms = {subPlatforms} 
-                    systems = {systems}     
-                    appElement={appElement} 
-                    getSystems = {getSystems}
-                    getPlatforms = {getPlatforms}
-                    getSubPlatforms = {getSubPlatforms}/>
-            <div>
-                <h2 style={{fontWeight: "bold", textAlign: "center", marginTop: "1.1rem"}}>דיווח תקלות</h2>
+    return (
+        <div className="Table">
+            <ViewEditReportModal
+                id="view-edit-report-modal"
+                serverConnection={serverConnection}
+                reportDetails={selectedReport}
+                isModalOpen={isViewEditReportModalOpen}
+                closeModal={closeViewEditReportModal}
+                platforms={platforms}
+                subPlatforms={subPlatforms}
+                systems={systems}
+                appElement={appElement}
+                getSystems={getSystems}
+                getPlatforms={getPlatforms}
+                getSubPlatforms={getSubPlatforms} />
+            <div className="logos-box">
+                <span>דיווח תקלות</span>
+                <button type="button" className="btn">{dictionary.new_fault}</button>
             </div>
             <TableContainer style={tableWrapperStyle}>
                 <Table>

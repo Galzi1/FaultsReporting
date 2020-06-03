@@ -21,6 +21,7 @@ export default function MainPage() {
         system_name: "מערכת דיווח תקבלות",
         new_fault: "פתח תקלה חדשה"
     }
+
     const emptyDetails = {
         report_description: '',
         report_fault_date: null,
@@ -97,22 +98,22 @@ export default function MainPage() {
     }
 
     return (
-        <div id="main-page" className="container-fluid" style={{ paddingRight: 0, paddingLeft: 0 }}>
-            <nav className="navbar header">
-                <Clock className={'clock'} format={'HH:mm:ss'} ticking={true} timezone={'Jerusalem/Israel'} />
+        <div className="mainPage">
+            <nav className="header">
+                <div className={'clock'} >
+                    <Clock format={'HH:mm:ss'} ticking={true} timezone={'Jerusalem/Israel'} />
+                </div>
                 <p>{dictionary.system_name}</p>
                 <img src={logoRapat} alt="Logo" className="logo"></img>
             </nav>
-            <nav className="navbar nav">
-                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <nav className="nav">
+                <button className="navbar-toggler menu" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <FontAwesomeIcon icon={faBars} />
                 </button>
-                <button onClick={openNewReportModal} type="button" className="btn">{dictionary.new_fault}</button>
                 <p>{dictionary.user}</p>
             </nav>
-            <div id="main-container" className="container-fluid">
+            <div>
                 <ReportsTable
-                    id="main-reports-table"
                     getReports={getReports}
                     serverConnection={serverConnection}
                     tableData={tableData}
@@ -124,7 +125,6 @@ export default function MainPage() {
                     getPlatforms={getPlatforms}
                     getSubPlatforms={getSubPlatforms} />
                 <ErrorReportModal
-                    id="error-report-modal"
                     serverConnection={serverConnection}
                     reportDetails={emptyDetails}
                     isModalOpen={isNewReportModalOpen}
@@ -136,7 +136,6 @@ export default function MainPage() {
                     getSystems={getSystems}
                     getPlatforms={getPlatforms}
                     getSubPlatforms={getSubPlatforms} />
-
             </div>
         </div >
     )

@@ -7,28 +7,57 @@ body,
     padding: 0;
     direction: rtl;
     background-color: #1B507C !important;
-    color:white;
+    color: white;
 }
 
-.navbar{
-    border-bottom: 1px solid white;
+.mainPage .header {
+    height: 7vh;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1vw;
 }
 
-.navbar.header .logo{
-    width: 5vw;
-    justify-content: center;
-    align-self: center;
+
+.mainPage .header .logo {
+    width: 4.5vw;
 }
 
-.navbar p {
+.mainPage .header p {
     position: relative;
     text-align: center;
     font-weight: bold;
-    font-size: 1.1vw;
-    top: 0.4vw;
+    font-size: 1.7rem;
+    top: 0.8vh;
+
 }
 
-.clock {
-    font-size: 18px;
+.mainPage .header .clock {
+    font-size: 1.1rem;
     font-weight: bold;
+    width: 1vw;
+}
+
+.mainPage .nav {
+    height: 7vh;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid white;
+    margin-top: 0.5vh;
+}
+
+.mainPage .nav p {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.3rem;
+    margin-left: 1.2vw;
+}
+
+.mainPage .nav .menu{
+    color: white;
+    border:1px solid white;
+    margin-right: 1.8vw;
 }
