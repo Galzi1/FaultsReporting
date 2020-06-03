@@ -118,7 +118,7 @@ export default function ReportsTable(props) {
 
                 <img src={reload_icon} alt="reload_icon" className={"reload_icon"}></img>
                 <p>דיווח תקלות</p>
-                <Fab color="secondary" aria-label="add" size="small" className={"add_button"}>
+                <Fab aria-label="add" size="small" className={"add_button"}>
                     <span>+</span>
                 </Fab>
             </div>

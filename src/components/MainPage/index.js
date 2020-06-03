@@ -18,7 +18,7 @@ export default function MainPage() {
 
     const dictionary = {
         user: "יוסי כהן",
-        system_name: "מערכת דיווח תקבלות",
+        system_name: "מערכת דיווח תקלות",
         new_fault: "פתח תקלה חדשה"
     }
 
