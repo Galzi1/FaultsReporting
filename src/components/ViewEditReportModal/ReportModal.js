@@ -12,7 +12,7 @@ export default function ReportModal(props) {
                                              : {position: "absolute", top: "5px", left: "5px", fontSize: "26px", backgroundColor: 'transparent', borderRadius: 0, padding: 0}
 
     // Handle Props
-    const isReportModalOpen = props.isOpen;
+
     const closeReportModal = props.onRequestClose;
     const modalTitle = props.title;
     const HostedComponent = props.HostedComponent;
@@ -31,7 +31,7 @@ export default function ReportModal(props) {
     return (
         <Modal
                 id="report-modal"
-                isOpen={isReportModalOpen}
+                isOpen={props.isModalOpen}
                 onRequestClose={closeReportModal}
                 contentLabel="Report Modal"
                 className="Modal container"

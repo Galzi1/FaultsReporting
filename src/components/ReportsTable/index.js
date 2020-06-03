@@ -12,6 +12,8 @@ import './ReportsTable.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { faSyncAlt } from '@fortawesome/free-solid-svg-icons';
+import Modal from 'react-bootstrap/Modal';
+
 
 export default function ReportsTable(props) {
     // Handle Props
@@ -29,7 +31,7 @@ export default function ReportsTable(props) {
 
     // State
     const [selectedReport, setSelectedReport] = useState(null);
-    const [isViewEditReportModalOpen, setIsViewEditReportModalOpen] = useState(false);
+    const [addReportModal, setAddReportModal] = useState(false);
     ////
 
 
@@ -65,31 +67,25 @@ export default function ReportsTable(props) {
     const tableWrapperStyle = {
         paddingBottom: "2%",
         paddingTop: "2%",
-        paddingLeft: "2%",
-        paddingRight: "2%"
+        paddingLeft: "1.5%",
+        paddingRight: "1.5%"
     };
     ////
 
-    function onSelectReportOnTable(report) {
+    const onSelectReportOnTable = (report) => {
         setSelectedReport(report);
-        openViewEditReportModal();
+        // openAddReportModal();
     }
 
-    function openViewEditReportModal() {
-        setIsViewEditReportModalOpen(true);
-    }
+    const openAddReportModal = () => setAddReportModal(true);
 
-    function closeViewEditReportModal() {
-        getReports(() => {
-            setIsViewEditReportModalOpen(false);
-        });
-    }
-
+    const closeAddReportModal = () => setAddReportModal(false);
+    
     useEffect(() => {
         getReports();
     }, []);
 
-    function renderTableData() {
+    const renderTableData = () => {
         return tableData.map((report, index) => {
             const {
                 _id,
@@ -118,25 +114,12 @@ export default function ReportsTable(props) {
     return (
         <div>
             <div className="Header">
-                <FontAwesomeIcon className="reload_icon" icon={faSyncAlt} size="2x"/>
+                <FontAwesomeIcon className="reload_icon" icon={faSyncAlt} size="2x" />
                 <span>{dictionary.fault_report}</span>
-                <Fab aria-label="add" size="small" className="add_button">
+                <Fab aria-label="add" size="small" className="add_button" onClick={openAddReportModal}>
                     <FontAwesomeIcon size="xs" icon={faPlus} />
                 </Fab>
             </div>
-            <ViewEditReportModal
-                id="view-edit-report-modal"
-                serverConnection={serverConnection}
-                reportDetails={selectedReport}
-                isModalOpen={isViewEditReportModalOpen}
-                closeModal={closeViewEditReportModal}
-                platforms={platforms}
-                subPlatforms={subPlatforms}
-                systems={systems}
-                appElement={appElement}
-                getSystems={getSystems}
-                getPlatforms={getPlatforms}
-                getSubPlatforms={getSubPlatforms} />
             <TableContainer style={tableWrapperStyle}>
                 <Table>
                     <TableHead className="bg-primary">
@@ -156,6 +139,27 @@ export default function ReportsTable(props) {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <Modal
+                show={addReportModal} onHide={closeAddReportModal}
+                className="Registration"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+            >
+                <Modal.Header className="header">
+                    <Modal.Title>{dictionary.registration}</Modal.Title>
+                    <Modal.Title className="close-modal-btn" onClick={closeAddReportModal}>x</Modal.Title>
+                </Modal.Header>
+                <Modal.Body className="body">
+                    <label>{dictionary.registration_text + ':'}</label>
+                    <div className="form">
+                        <label>{dictionary.user + ':'}</label>
+                    </div>
+                </Modal.Body>
+                <Modal.Footer className="footer">
+                    {/* <Button className="btn btn-success" onClick={onRegistration}>{dictionary.save} </Button> */}
+                </Modal.Footer>
+            </Modal>
+
         </div>
     )
 }
