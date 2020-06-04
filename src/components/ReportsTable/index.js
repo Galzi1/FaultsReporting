@@ -9,8 +9,7 @@ import Fab from '@material-ui/core/Fab';
 import { withStyles } from '@material-ui/core/styles';
 import './ReportsTable.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { faSyncAlt } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faSyncAlt, faPen, faEye} from '@fortawesome/free-solid-svg-icons';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
@@ -42,7 +41,7 @@ export default function ReportsTable(props) {
     const [fault_subPlatform, setFault_SubPlatform] = useState('');
     const [fault_system, setFault_System] = useState('');
     const [fault_idPlatform, setFault_idPlatform] = useState('');
-
+    const [reportsState, setReportState] = useState(reports);
 
     ////
 
@@ -62,6 +61,12 @@ export default function ReportsTable(props) {
         newReport_description: "תיאור תקלה",
         newReport_idPlatform: "מספר פלטפורמה",
         detail_text: "נא למלא את כל הפרטים",
+        report_done:"בוצע",
+        report_notDone:"טרם בוצע",
+        reportPriority_VeryHigh:"גבוהה מאוד",
+        reportPriority_High:"גבוהה",
+        reportPriority_Medium:"בינונית",
+        reportPriority_Slow:"נמוכה",
     }
 
     // Custom Styles
@@ -108,8 +113,9 @@ export default function ReportsTable(props) {
     }, []);
 
     const renderTableData = () => {
-        return reports.map((report) => {
+        return reportsState.map((report) => {
             return (<StyledTableRow key={report._id}>
+                <StyledTableCell align="center" ><FontAwesomeIcon size="xs" icon={faEye} /></StyledTableCell>
                 <StyledTableCell align="center" ><span className="HyperlinkText" onClick={() => onSelectReportOnTable(report)}>{report._id}</span></StyledTableCell>
                 <StyledTableCell align="center" >addf</StyledTableCell>
                 <StyledTableCell align="center" >{new Date(report.reporting_date).toLocaleDateString("he-IL", "short") || "-"}</StyledTableCell>
@@ -118,6 +124,7 @@ export default function ReportsTable(props) {
                 <StyledTableCell align="center" >{report.reporter_username}</StyledTableCell>
                 <StyledTableCell align="center" >{report.platform}</StyledTableCell>
                 <StyledTableCell align="center" >{report.status || "טרם עודכן"}</StyledTableCell>
+                <StyledTableCell align="center" ><FontAwesomeIcon size="xs" icon={faPen} /></StyledTableCell>
             </StyledTableRow >
             )
         })
@@ -127,6 +134,7 @@ export default function ReportsTable(props) {
         return (
             <TableHead style={{ backgroundColor: "#1B507C" }}>
                 <TableRow>
+                <StyledTableCell align="center" scope="col"></StyledTableCell>
                     <StyledTableCell align="center" scope="col">#</StyledTableCell>
                     <StyledTableCell align="center" scope="col">תקציר התקלה</StyledTableCell>
                     <StyledTableCell align="center" scope="col">תאריך דיווח</StyledTableCell>
@@ -135,6 +143,7 @@ export default function ReportsTable(props) {
                     <StyledTableCell align="center" scope="col">המדווח</StyledTableCell>
                     <StyledTableCell align="center" scope="col">פלטפורמה</StyledTableCell>
                     <StyledTableCell align="center" scope="col">סטאטוס</StyledTableCell>
+                    <StyledTableCell align="center" scope="col">פעולות</StyledTableCell>
                 </TableRow>
             </TableHead>)
     }
