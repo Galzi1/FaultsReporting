@@ -4,6 +4,7 @@ import './Login.css'
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 // import axios from 'axios'
+import { useAuthContext } from '../Login/AuthApi';
 // import {useHistory} from "react-router-dom";
 
 export default function Login() {
@@ -31,6 +32,8 @@ export default function Login() {
     const [reporterTask, setReporterTask] = useState('')
     const [unitName, setUnitName] = useState('')
 
+    const { setAuth } = useAuthContext()
+
 
     const onKeyPress = (e) => {
         if (e.key == ENTER_KEY || e.code == ENTER_KEY || e.keyCode == ENTER_KEY_CODE) {
@@ -43,6 +46,11 @@ export default function Login() {
         window.addEventListener("keypress", onKeyPress)
         return () => window.removeEventListener("keypress", onKeyPress)
     }, [name, password])
+
+    const permission = {
+        ADMIN: "admin",
+        GUEST: "guest",
+    }
 
     const onLogin = () => {
         // axios.post('http://' + ServerIp + '/login',
@@ -61,7 +69,15 @@ export default function Login() {
         //     })
         //     .catch(err => {
         //     })
-        alert("submit");
+        if (name === "admin" && password === "12345") {
+            alert("התחברת בהצלחה");
+            setAuth(
+                permission.ADMIN
+            )
+        }
+        else {
+            alert("שם משתמש או סיסמה לא נכונים");
+        }
     }
 
     const onRegistration = () => {
@@ -97,6 +113,7 @@ export default function Login() {
         setShowRegistration(false)
     }
     return (
+
         <div className="Login">
             <div className='logos-box'>
                 <button type="button" className="btn btn-success logo" onClick={openRegistration}>{dictionary.registration}</button>

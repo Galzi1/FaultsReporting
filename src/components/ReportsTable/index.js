@@ -1,19 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Fab from '@material-ui/core/Fab';
-import { withStyles } from '@material-ui/core/styles';
+import React, { useEffect, useState } from '../../../node_modules/react';
+import Table from '../../../node_modules/@material-ui/core/Table';
+import TableBody from '../../../node_modules/@material-ui/core/TableBody';
+import TableCell from '../../../node_modules/@material-ui/core/TableCell';
+import TableContainer from '../../../node_modules/@material-ui/core/TableContainer';
+import TableHead from '../../../node_modules/@material-ui/core/TableHead';
+import TableRow from '../../../node_modules/@material-ui/core/TableRow';
+import Fab from '../../../node_modules/@material-ui/core/Fab';
+import { withStyles } from '../../../node_modules/@material-ui/core/styles';
 import './ReportsTable.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faSyncAlt, faPen, faEye} from '@fortawesome/free-solid-svg-icons';
-import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
-
-import reports from '../../data/reports.json'
+import { FontAwesomeIcon } from '../../../node_modules/@fortawesome/react-fontawesome';
+import { faPlus, faSyncAlt, faPen, faEye} from '../../../node_modules/@fortawesome/free-solid-svg-icons';
+import Modal from '../../../node_modules/react-bootstrap/Modal';
+import Button from '../../..//node_modules/react-bootstrap/Button';
+import reports from '../../Data/reports.json'
 
 
 export default function ReportsTable(props) {
@@ -108,9 +107,9 @@ export default function ReportsTable(props) {
 
     const closeAddReportModal = () => setAddReportModal(false);
 
-    useEffect(() => {
-        getReports();
-    }, []);
+    // useEffect(() => {
+    //     getReports();
+    // }, []);
 
     const renderTableData = () => {
         return reportsState.map((report) => {
