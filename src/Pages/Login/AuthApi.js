@@ -13,7 +13,7 @@ const getLocalStorage = (key) => {
         const value = JSON.parse(localStorage.getItem(key))
         if (value.expire < new Date()) return null
 
-        return value.value
+        return value.id
     } catch{
         return null
     }

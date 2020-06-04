@@ -21,7 +21,7 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
   return (
     <Route
       {...rest}
-      render={() => auth==="admin" ? (
+      render={() => auth ? (
         <Component />
       ) : (
           <Redirect to='/login' />

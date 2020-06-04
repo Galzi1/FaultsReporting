@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './MainPage.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 // import ServerConnection from '../../utils/ServerConnection';
 import logoRapat from '../../Images/mantak.png'
 import ReportsTable from '../../Components/ReportsTable';
-import { Route, BrowserRouter } from "react-router-dom";
-import Clock from 'react-live-clock'
-
+import Clock from 'react-live-clock';
+import Users from '../../Data/users.json';
+import { getAuth, logOut } from '../../Pages/Login/AuthApi'
+import { get } from 'ol/proj';
 const server_ip = "http://127.0.0.1"
 const server_port = "4000"
 
@@ -16,7 +17,7 @@ export default function MainPage() {
     // const serverConnection = new ServerConnection(server_ip, server_port);
 
     const dictionary = {
-        user: "יוסי כהן",
+        user:"Yossi K",
         system_name: "מערכת דיווח תקלות",
         new_fault: "פתח תקלה חדשה"
     }
@@ -39,6 +40,10 @@ export default function MainPage() {
     const [platforms, setPlatforms] = useState([]);
     const [subPlatforms, setSubPlatforms] = useState([]);
     const [systems, setSystems] = useState([]);
+    const [LoginId, setLoginId] = useState('')
+    const [userName, setUserName] = useState('')
+
+    const auth = getAuth;
     ////
 
     // const getReports = (callback = null) => {
@@ -83,6 +88,18 @@ export default function MainPage() {
     //             callback();
     //         }
     //     });
+    // }
+
+    // useEffect(() => {
+    //     setLoginId(getAuth.id);
+    // })
+
+    // const getUserName = () => {
+    //     Users.forEach(user => {
+    //         if (user.id === LoginId) {
+    //             setUserName(user.name)
+    //         }
+    //     })
     // }
 
     return (
