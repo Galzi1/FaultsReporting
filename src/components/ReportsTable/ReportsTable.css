@@ -45,11 +45,16 @@
     margin-bottom: 0.5vw;
 }
 
-.AddReport .form input, option, select{
+.AddReport .form input, option, select, textarea{
     background: transparent;
     border: none;
     border-bottom: 1px grey solid;
     color: grey;
     outline: none;
-    width:50%;
+    width:40%;
+}
+
+.AddReport .form textarea{
+    border: 1px solid grey;
+    width:70%;
 }

@@ -197,7 +197,7 @@ export default function ReportsTable(props) {
                             <option value="1">מערכת</option>
                         </select>
                         <label>{dictionary.newReport_description + ':'}</label>
-                        <input name='desc' type="text" onChange={e => setFault_Desc(e.target.value)} required />
+                        <textarea name="desc" rows="10" cols="100" onChange={e => setFault_Desc(e.target.value)} required></textarea>
                     </div>
                 </Modal.Body>
                 <Modal.Footer className="footer">
