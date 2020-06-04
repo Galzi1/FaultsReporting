@@ -40,18 +40,7 @@ export default function MainPage() {
     const [platforms, setPlatforms] = useState([]);
     const [subPlatforms, setSubPlatforms] = useState([]);
     const [systems, setSystems] = useState([]);
-    const [isNewReportModalOpen, setIsNewReportModalOpen] = useState(false);
     ////
-
-    function openNewReportModal() {
-        setIsNewReportModalOpen(true);
-    }
-
-    function closeNewReportModal() {
-        getReports(() => {
-            setIsNewReportModalOpen(false);
-        });
-    }
 
     const getReports = (callback = null) => {
         serverConnection.getReports(res => {
@@ -103,7 +92,7 @@ export default function MainPage() {
                 <div className="header">
                     <img src={logoRapat} alt="Logo" className="logo"></img>
                     <p className={"white_text"}>{dictionary.system_name}</p>
-                    <Clock className={'clock white_text'} format={'HH:mm:ss'} ticking={true} timezone={'Jerusalem/Israel'} />
+                    <Clock className={'clock white_text'} format={'HH:mm:ss'} ticking={true}/>
                 </div>
                 <div className="nav">
                     <p className={"white_text"}>{dictionary.user}</p>
@@ -117,18 +106,6 @@ export default function MainPage() {
                     getReports={getReports}
                     serverConnection={serverConnection}
                     tableData={tableData}
-                    platforms={platforms}
-                    subPlatforms={subPlatforms}
-                    systems={systems}
-                    appElement={self}
-                    getSystems={getSystems}
-                    getPlatforms={getPlatforms}
-                    getSubPlatforms={getSubPlatforms} />
-                <ErrorReportModal
-                    serverConnection={serverConnection}
-                    reportDetails={emptyDetails}
-                    isModalOpen={isNewReportModalOpen}
-                    closeModal={closeNewReportModal}
                     platforms={platforms}
                     subPlatforms={subPlatforms}
                     systems={systems}

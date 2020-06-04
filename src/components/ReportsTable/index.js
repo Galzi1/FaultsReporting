@@ -14,6 +14,8 @@ import { faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
+import reports from '../../data/reports.json'
+
 
 export default function ReportsTable(props) {
     // Handle Props
@@ -106,29 +108,68 @@ export default function ReportsTable(props) {
     }, []);
 
     const renderTableData = () => {
-        return tableData.map((report, index) => {
-            const {
-                _id,
-                report_summary,
-                report_reporting_date,
-                report_priority,
-                report_reporter_username,
-                report_platform,
-                report_status
-            } = report //destructuring
-            return (
-                <StyledTableRow key={_id}>
-                    <StyledTableCell align="center"><span className="HyperlinkText" onClick={() => onSelectReportOnTable(report)}>{_id}</span></StyledTableCell>
-                    <StyledTableCell align="center">{report_summary}</StyledTableCell>
-                    <StyledTableCell align="center">{new Date(report_reporting_date).toLocaleDateString("he-IL", "short") || "-"}</StyledTableCell>
-                    <StyledTableCell align="center">{report_priority || "טרם הוגדר"}</StyledTableCell>
-                    <StyledTableCell align="center">{"-"}</StyledTableCell>
-                    <StyledTableCell align="center">{report_reporter_username}</StyledTableCell>
-                    <StyledTableCell align="center">{report_platform}</StyledTableCell>
-                    <StyledTableCell align="center">{report_status || "טרם עודכן"}</StyledTableCell>
-                </StyledTableRow>
+        return reports.map((report) => {
+            return (<StyledTableRow key={report._id}>
+                <StyledTableCell align="center" ><span className="HyperlinkText" onClick={() => onSelectReportOnTable(report)}>{report._id}</span></StyledTableCell>
+                <StyledTableCell align="center" >addf</StyledTableCell>
+                <StyledTableCell align="center" >{new Date(report.reporting_date).toLocaleDateString("he-IL", "short") || "-"}</StyledTableCell>
+                <StyledTableCell align="center" >{report.priority || "טרם הוגדר"}</StyledTableCell>
+                <StyledTableCell align="center" >{"-"}</StyledTableCell>
+                <StyledTableCell align="center" >{report.reporter_username}</StyledTableCell>
+                <StyledTableCell align="center" >{report.platform}</StyledTableCell>
+                <StyledTableCell align="center" >{report.status || "טרם עודכן"}</StyledTableCell>
+            </StyledTableRow >
             )
         })
+    }
+
+    const renderHeaderTable = () => {
+        return (
+            <TableHead style={{ backgroundColor: "#1B507C" }}>
+                <TableRow>
+                    <StyledTableCell align="center" scope="col">#</StyledTableCell>
+                    <StyledTableCell align="center" scope="col">תקציר התקלה</StyledTableCell>
+                    <StyledTableCell align="center" scope="col">תאריך דיווח</StyledTableCell>
+                    <StyledTableCell align="center" scope="col">עדיפות</StyledTableCell>
+                    <StyledTableCell align="center" scope="col">סוג המדווח</StyledTableCell>
+                    <StyledTableCell align="center" scope="col">המדווח</StyledTableCell>
+                    <StyledTableCell align="center" scope="col">פלטפורמה</StyledTableCell>
+                    <StyledTableCell align="center" scope="col">סטאטוס</StyledTableCell>
+                </TableRow>
+            </TableHead>)
+    }
+
+    const addReportForm = () => {
+        return (
+            <div className="form">
+                <label style={{ fontStyle: "italic", color: "grey" }}>{dictionary.detail_text + ':'}</label>
+                <label>{dictionary.newReport_title + ':'}</label>
+                <input name='title' type="text" onChange={e => setFault_Title(e.target.value)} required />
+                <label>{dictionary.newReport_date + ':'}</label>
+                <input name='data' type="text" onChange={e => setFault_Date(e.target.value)} required />
+                <label>{dictionary.newReport_location + ':'}</label>
+                <input name='location' type="text" onChange={e => setFault_Location(e.target.value)} required />
+                <label>{dictionary.newReport_idPlatform + ':'}</label>
+                <input name='idPlatform' type="number" onChange={e => setFault_idPlatform(e.target.value)} required />
+                <label>{dictionary.newReport_platform + ':'}</label>
+                <select name='platform' onChange={e => setFault_Platform(e.target.value)} required>
+                    <option value="0">פלטפורמה</option>
+                    <option value="1">פלטפורמה</option>
+                </select>
+                <label>{dictionary.newReport_subplatform + ':'}</label>
+                <select name='suvplatform' onChange={e => setFault_SubPlatform(e.target.value)} required>
+                    <option value="0">תת-פלטפורמה</option>
+                    <option value="1">תת-פלטפורמה</option>
+                </select>
+                <label>{dictionary.newReport_system + ':'}</label>
+                <select name='system' onChange={e => setFault_System(e.target.value)} required>
+                    <option value="0">מערכת</option>
+                    <option value="1">מערכת</option>
+                </select>
+                <label>{dictionary.newReport_description + ':'}</label>
+                <textarea name="desc" rows="10" cols="100" onChange={e => setFault_Desc(e.target.value)} required></textarea>
+            </div>
+        )
     }
 
     return (
@@ -142,18 +183,7 @@ export default function ReportsTable(props) {
             </div>
             <TableContainer style={tableWrapperStyle}>
                 <Table>
-                    <TableHead className="bg-primary">
-                        <TableRow>
-                            <StyledTableCell align="center" scope="col">#</StyledTableCell>
-                            <StyledTableCell align="center" scope="col">תקציר התקלה</StyledTableCell>
-                            <StyledTableCell align="center" scope="col">תאריך דיווח</StyledTableCell>
-                            <StyledTableCell align="center" scope="col">עדיפות</StyledTableCell>
-                            <StyledTableCell align="center" scope="col">סוג המדווח</StyledTableCell>
-                            <StyledTableCell align="center" scope="col">המדווח</StyledTableCell>
-                            <StyledTableCell align="center" scope="col">פלטפורמה</StyledTableCell>
-                            <StyledTableCell align="center" scope="col">סטאטוס</StyledTableCell>
-                        </TableRow>
-                    </TableHead>
+                    {renderHeaderTable()}
                     <TableBody>
                         {renderTableData()}
                     </TableBody>
@@ -171,37 +201,10 @@ export default function ReportsTable(props) {
                     <Modal.Title className="close-modal-btn" onClick={closeAddReportModal}>x</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <div className="form">
-                        <label style={{ fontStyle: "italic", color: "grey" }}>{dictionary.detail_text + ':'}</label>
-                        <label>{dictionary.newReport_title + ':'}</label>
-                        <input name='title' type="text" onChange={e => setFault_Title(e.target.value)} required />
-                        <label>{dictionary.newReport_date + ':'}</label>
-                        <input name='data' type="text" onChange={e => setFault_Date(e.target.value)} required />
-                        <label>{dictionary.newReport_location + ':'}</label>
-                        <input name='location' type="text" onChange={e => setFault_Location(e.target.value)} required />
-                        <label>{dictionary.newReport_idPlatform + ':'}</label>
-                        <input name='idPlatform' type="number" onChange={e => setFault_idPlatform(e.target.value)} required />
-                        <label>{dictionary.newReport_platform + ':'}</label>
-                        <select name='platform' onChange={e => setFault_Platform(e.target.value)} required>
-                            <option value="0">פלטפורמה</option>
-                            <option value="1">פלטפורמה</option>
-                        </select>
-                        <label>{dictionary.newReport_subplatform + ':'}</label>
-                        <select name='suvplatform' onChange={e => setFault_SubPlatform(e.target.value)} required>
-                            <option value="0">תת-פלטפורמה</option>
-                            <option value="1">תת-פלטפורמה</option>
-                        </select>
-                        <label>{dictionary.newReport_system + ':'}</label>
-                        <select name='system' onChange={e => setFault_System(e.target.value)} required>
-                            <option value="0">מערכת</option>
-                            <option value="1">מערכת</option>
-                        </select>
-                        <label>{dictionary.newReport_description + ':'}</label>
-                        <textarea name="desc" rows="10" cols="100" onChange={e => setFault_Desc(e.target.value)} required></textarea>
-                    </div>
+                    {addReportForm()}
                 </Modal.Body>
                 <Modal.Footer className="footer">
-                    <Button className="btn btn-success">{dictionary.save} </Button>
+                    <Button className="btn" style={{ backgroundColor: "#1B507C" }}>{dictionary.save} </Button>
                 </Modal.Footer>
             </Modal>
 

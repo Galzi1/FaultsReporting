@@ -1,0 +1,18 @@
+[
+    {
+        "summary": "Summary",
+        "reporting_date": "12.2.2019",
+        "priority": "2",
+        "reporter_username": "David",
+        "platform": "One",
+        "status": "Done"
+    },
+    {
+        "summary": "Summary",
+        "reporting_date": "12.2.2019",
+        "priority": "2",
+        "reporter_username": "David",
+        "platform": "One",
+        "status": "Done"
+    }
+]
