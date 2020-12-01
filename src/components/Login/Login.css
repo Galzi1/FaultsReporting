@@ -1,13 +1,15 @@
 .Login {
     height: 100%;
     width: 100%;
+    background-color: #1B507C;
+    padding: 0;
+    margin: auto;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     direction: rtl;
-    color: white;
-    background-color: #1B507C;
+    color: white;  
 }
 
 .Login .Title {
@@ -135,7 +137,7 @@
 }
 
 input[type='number'] {
-    -moz-appearance:textfield;
+    -moz-appearance: textfield;
 }
 
 input::-webkit-outer-spin-button,
@@ -143,7 +145,7 @@ input::-webkit-inner-spin-button {
     -webkit-appearance: none;
 }
 
-.Registration label{
+.Registration label {
     font-size: 1.2vw;
     color: rgb(95, 95, 95);
 }

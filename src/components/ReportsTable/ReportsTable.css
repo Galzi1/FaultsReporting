@@ -1,0 +1,60 @@
+.Header .reload_icon {
+    margin-right: 2.3vw;
+}
+
+.Header {
+    position: relative;
+    height: 7vh;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.Header span {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.Header .add_button {
+    margin-left: 1.7vw;
+}
+
+.AddReport {
+    direction: rtl;
+    color: white;
+}
+
+.AddReport .header {
+    background-color: rgba(2, 14, 24, 0.651);
+}
+
+.AddReport .footer {
+    background-color: rgba(2, 14, 24, 0.651);
+}
+
+.AddReport label {
+    color: #1B507C;
+    margin-top: 2vh;
+}
+
+.AddReport .form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 0.5vw;
+}
+
+.AddReport .form input, option, select, textarea{
+    background: transparent;
+    border: none;
+    border-bottom: 1px grey solid;
+    color: grey;
+    outline: none;
+    width:40%;
+}
+
+.AddReport .form textarea{
+    border: 1px solid grey;
+    width:70%;
+}
