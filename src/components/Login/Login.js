@@ -4,7 +4,7 @@ import './Login.css'
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 // import axios from 'axios'
-import { useAuthContext } from '../Login/AuthApi';
+import { useAuthContext } from './AuthApi';
 // import {useHistory} from "react-router-dom";
 
 export default function Login() {

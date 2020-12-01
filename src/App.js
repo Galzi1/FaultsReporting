@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 // import axios from 'axios'
-import HomePage from './Pages/MainPage'
-import Login from './Pages/Login'
+import HomePage from './components/MainPage/MainPage'
+import Login from './components/Login/Login'
 // import ServerIp from './Config.js'
-import { useAuthContext, AuthProvider } from './Pages/Login/AuthApi'
+import { useAuthContext, AuthProvider } from './components/Login/AuthApi'
 import './App.css';
 import '@fortawesome/fontawesome-free/css/all.css'
 import {

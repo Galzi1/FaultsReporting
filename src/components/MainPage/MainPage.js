@@ -4,10 +4,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 // import ServerConnection from '../../utils/ServerConnection';
 import logoRapat from '../../Images/mantak.png'
-import ReportsTable from '../../Components/ReportsTable';
+import ReportsTable from '../ReportsTable/ReportsTable';
 import Clock from 'react-live-clock';
-import Users from '../../Data/users.json';
-import { getAuth, logOut } from '../../Pages/Login/AuthApi'
+import Users from '../../data/users.json';
+import { getAuth, logOut } from '../Login/AuthApi'
 import { get } from 'ol/proj';
 const server_ip = "http://127.0.0.1"
 const server_port = "4000"
