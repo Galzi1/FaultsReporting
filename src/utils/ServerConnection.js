@@ -1,53 +1,89 @@
 import axios from 'axios';
 import { getRandomInt } from './common';
 
+var _default_err_callback = (err) => {
+    if (err) {
+        console.error(err.code);
+        console.error(err.message);
+        console.error(err.stack);
+    }
+};
+
 export default class ServerConnection {
     constructor(ip, port) {
         this.ip = ip;
         this.port = port;
     }
 
-    getReports = (callback) => {
+    getReports = (callback, err_callback = null) => {
         const getReportsUrl = `${this.ip}:${this.port}/reports/`;
         axios
         .get(getReportsUrl, {
             timeout: 5000
         })
         .then(callback)
-        .catch(err => console.error(err));
+        .catch(err => {
+            if (err_callback) {
+                err_callback(err);
+            }
+            else {
+                _default_err_callback(err);
+            }
+        });
     }
 
-    getReportById = (callback, id) => {
+    getReportById = (callback, id, err_callback = null) => {
         const getReportUrl = `${this.ip}:${this.port}/reports/${id}`;
         axios
         .get(getReportUrl, {
             timeout: 5000
         })
         .then(callback)
-        .catch(err => console.error(err));
+        .catch(err => {
+            if (err_callback) {
+                err_callback(err);
+            }
+            else {
+                _default_err_callback(err);
+            }
+        });
     }
 
-    updateReport = (callback, id, report) => {
+    updateReport = (callback, id, report, err_callback = null) => {
         const updateReportUrl = `${this.ip}:${this.port}/reports/update/${id}`;
         axios
         .put(updateReportUrl, report, {
             timeout: 5000
         })
         .then(callback)
-        .catch(err => console.error(err));
+        .catch(err => {
+            if (err_callback) {
+                err_callback(err);
+            }
+            else {
+                _default_err_callback(err);
+            }
+        });
     }
 
-    addReport = (callback, report) => {
+    addReport = (callback, report, err_callback = null) => {
         const newReportUrl = `${this.ip}:${this.port}/reports/add`;
         axios
         .post(newReportUrl, report, {
             timeout: 5000
         })
         .then(callback)
-        .catch(err => console.error(err));
+        .catch(err => {
+            if (err_callback) {
+                err_callback(err);
+            }
+            else {
+                _default_err_callback(err);
+            }
+        });
     }
 
-    getPlatforms = (callback) => {
+    getPlatforms = (callback, err_callback = null) => {
         const p = new Promise((resolve, reject) => {
             const rand = getRandomInt(0, 10);
             const platforms = [
@@ -70,10 +106,17 @@ export default class ServerConnection {
         });
         
         p.then(callback)
-        .catch(err => console.error(err));
+        .catch(err => {
+            if (err_callback) {
+                err_callback(err);
+            }
+            else {
+                _default_err_callback(err);
+            }
+        });
     }
 
-    getSubPlatforms = (callback) => {
+    getSubPlatforms = (callback, err_callback = null) => {
         const p = new Promise((resolve, reject) => {
             const rand = getRandomInt(0, 10);
             const subPlatforms = [
@@ -99,10 +142,17 @@ export default class ServerConnection {
         });
         
         p.then(callback)
-        .catch(err => console.error(err));
+        .catch(err => {
+            if (err_callback) {
+                err_callback(err);
+            }
+            else {
+                _default_err_callback(err);
+            }
+        });
     }
 
-    getSystems = (callback) => {
+    getSystems = (callback, err_callback = null) => {
         const p = new Promise((resolve, reject) => {
             const rand = getRandomInt(0, 10);
             const systems = [
@@ -131,7 +181,14 @@ export default class ServerConnection {
         });
         
         p.then(callback)
-        .catch(err => console.error(err));
+        .catch(err => {
+            if (err_callback) {
+                err_callback(err);
+            }
+            else {
+                _default_err_callback(err);
+            }
+        });
     }
 }
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './MainPage.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
-// import ServerConnection from '../../utils/ServerConnection';
+import ServerConnection from '../../utils/ServerConnection';
 import logoRapat from '../../Images/mantak.png'
 import ReportsTable from '../ReportsTable/ReportsTable';
 import Clock from 'react-live-clock';
@@ -14,7 +14,7 @@ const server_port = "4000"
 
 export default function MainPage() {
     const self = document.getElementById("main-page"); //Getting current element manually as no better method found
-    // const serverConnection = new ServerConnection(server_ip, server_port);
+    const serverConnection = new ServerConnection(server_ip, server_port);
 
     const dictionary = {
         user:"Yossi K",
@@ -46,61 +46,61 @@ export default function MainPage() {
     const auth = getAuth;
     ////
 
-    // const getReports = (callback = null) => {
-    //     serverConnection.getReports(res => {
-    //         const reports = res.data;
-    //         console.log("Reports: " + reports);
-    //         setTableData(reports);
-    //         if (callback) {
-    //             callback();
-    //         }
-    //     });
-    // }
+    const getReports = (callback = null, err_callback = null) => {
+        serverConnection.getReports(res => {
+            const reports = res.data;
+            console.log("Reports: " + reports);
+            setTableData(reports);
+            if (callback) {
+                callback();
+            }
+        }, err_callback);
+    }
 
-    // const getSystems = (callback = null) => {
-    //     serverConnection.getSystems(res => {
-    //         const systems = res.data;
-    //         console.log("Systems: " + systems);
-    //         setSystems(systems);
-    //         if (callback) {
-    //             callback();
-    //         }
-    //     });
-    // }
+    const getSystems = (callback = null) => {
+        serverConnection.getSystems(res => {
+            const systems = res.data;
+            console.log("Systems: " + systems);
+            setSystems(systems);
+            if (callback) {
+                callback();
+            }
+        });
+    }
 
-    // const getPlatforms = (callback = null) => {
-    //     serverConnection.getPlatforms(res => {
-    //         const platforms = res.data;
-    //         console.log("Platforms: " + platforms);
-    //         setPlatforms(platforms);
-    //         if (callback) {
-    //             callback();
-    //         }
-    //     });
-    // }
+    const getPlatforms = (callback = null) => {
+        serverConnection.getPlatforms(res => {
+            const platforms = res.data;
+            console.log("Platforms: " + platforms);
+            setPlatforms(platforms);
+            if (callback) {
+                callback();
+            }
+        });
+    }
 
-    // const getSubPlatforms = (callback = null) => {
-    //     serverConnection.getSubPlatforms(res => {
-    //         const subPlatforms = res.data;
-    //         console.log("Sub-Platforms: " + subPlatforms);
-    //         setSubPlatforms(subPlatforms);
-    //         if (callback) {
-    //             callback();
-    //         }
-    //     });
-    // }
+    const getSubPlatforms = (callback = null) => {
+        serverConnection.getSubPlatforms(res => {
+            const subPlatforms = res.data;
+            console.log("Sub-Platforms: " + subPlatforms);
+            setSubPlatforms(subPlatforms);
+            if (callback) {
+                callback();
+            }
+        });
+    }
 
-    // useEffect(() => {
-    //     setLoginId(getAuth.id);
-    // })
+    useEffect(() => {
+        setLoginId(getAuth.id);
+    })
 
-    // const getUserName = () => {
-    //     Users.forEach(user => {
-    //         if (user.id === LoginId) {
-    //             setUserName(user.name)
-    //         }
-    //     })
-    // }
+    const getUserName = () => {
+        Users.forEach(user => {
+            if (user.id === LoginId) {
+                setUserName(user.name)
+            }
+        })
+    }
 
     return (
         <div className="mainPage">
@@ -119,16 +119,16 @@ export default function MainPage() {
             </div>
             <div>
                 <ReportsTable
-                    // getReports={getReports}
-                    // serverConnection={serverConnection}
+                    getReports={getReports}
+                    serverConnection={serverConnection}
                     tableData={tableData}
                     platforms={platforms}
                     subPlatforms={subPlatforms}
                     systems={systems}
                     appElement={self}
-                // getSystems={getSystems}
-                // getPlatforms={getPlatforms}
-                // getSubPlatforms={getSubPlatforms} 
+                    getSystems={getSystems}
+                    getPlatforms={getPlatforms}
+                    getSubPlatforms={getSubPlatforms} 
                 />
             </div>
         </div >
