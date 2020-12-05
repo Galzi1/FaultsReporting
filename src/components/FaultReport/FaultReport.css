@@ -1,0 +1,12 @@
+.Modal {
+    direction: rtl;
+    text-align: right;
+}
+
+label.report-label {
+    color: black;
+}
+
+label.report-check-label {
+    margin-right: 1.5rem;
+}

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import '../MainPage/MainPage.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUpload, faLongArrowAltRight, faLongArrowAltLeft } from '@fortawesome/free-solid-svg-icons'
+import './FaultReport.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUpload, faLongArrowAltRight, faLongArrowAltLeft } from '@fortawesome/free-solid-svg-icons';
 
 export default function FaultReportForm(props) {
     const serverConnection = props.serverConnection;
@@ -87,14 +88,14 @@ export default function FaultReportForm(props) {
         <div>
             <form id="fault-report-form-page1" className={displayedFormClass}>
                 <div className="form-group">
-                    <label className="form-label form-label-sm">תקציר התקלה</label>
+                    <label className="form-label form-label-sm report-label">תקציר התקלה</label>
                     <input value={details ? details.report_summary : null} 
                         onChange={
                             ({ target: { value } }) => setDetails(details => ({ ...details, report_summary: value }))
                         } type="text" className="form-control form-control-sm" placeholder="תקציר התקלה"/>
                 </div>
                 <div className="form-group">
-                    <label className="form-label form-label-sm">תיאור התקלה</label>
+                    <label className="form-label form-label-sm report-label">תיאור התקלה</label>
                     <textarea value={details ? details.report_description : null} rows="3" 
                     onChange={
                         ({ target: { value } }) => setDetails(details => ({ ...details, report_description: value }))
@@ -103,7 +104,7 @@ export default function FaultReportForm(props) {
                 <div className="row">
                     <div className="col-md-6">
                         <div className="form-group">
-                            <label className="form-label form-label-sm">פלטפורמה</label>
+                            <label className="form-label form-label-sm report-label">פלטפורמה</label>
                             <select value={details ? details.report_platform : "0"} onChange={({ target: { value } }) => setDetails(details => ({ ...details, report_platform: value }))} className="form-control form-control-sm">
                                 <option value="0">פלטפורמה</option>
                                 {
@@ -116,7 +117,7 @@ export default function FaultReportForm(props) {
                     </div>
                     <div className="col-md-6">
                         <div className="form-group">
-                            <label className="form-label form-label-sm">מערכת</label>
+                            <label className="form-label form-label-sm report-label">מערכת</label>
                             <select value={details ? details.report_system : "0"} onChange={
                                 ({ target: { value } }) => 
                                     setDetails(details => ({ ...details, report_system: value }))
@@ -135,7 +136,7 @@ export default function FaultReportForm(props) {
                 <div className="row">
                     <div className="col-md-6">
                         <div className="form-group">
-                            <label className="form-label form-label-sm">תת-פלטפורמה</label>
+                            <label className="form-label form-label-sm report-label">תת-פלטפורמה</label>
                             <select value={details ? details.report_sub_platform : "0"} onChange={
                                 ({ target: { value } }) => setDetails(details => ({ ...details, report_sub_platform: value }))
                             } className="form-control form-control-sm">
@@ -150,7 +151,7 @@ export default function FaultReportForm(props) {
                     </div>
                     <div className="col-md-6">
                     <div className="form-group">
-                            <label className="form-label form-label-sm">תאריך התקלה</label>
+                            <label className="form-label form-label-sm report-label">תאריך התקלה</label>
                             <input onChange={({ target: { value } }) => setDetails(details => ({
                                 ...details, report_fault_date: (new Date(value)).toISOString() 
                             }))} type="date" className="form-control form-control-sm" placeholder="תאריך התקלה"/>
@@ -161,7 +162,7 @@ export default function FaultReportForm(props) {
                 <div className="row">
                     <div className="col-md-6">
                         <div className="form-group">
-                            <label className="form-label form-label-sm">מספר פלטפורמה</label>
+                            <label className="form-label form-label-sm report-label">מספר פלטפורמה</label>
                             <input value={details ? details.report_platform_num : null} 
                             onChange=
                                 {({ target: { value } }) => setDetails(details => ({ ...details, report_platform_num: value }))
@@ -170,7 +171,7 @@ export default function FaultReportForm(props) {
                     </div>
                     <div className="col-md-6">
                         <div className="form-group">
-                            <label className="form-label form-label-sm">מיקום</label>
+                            <label className="form-label form-label-sm report-label">מיקום</label>
                             <input value={details ? details.report_location : null} 
                             onChange={
                                 ({ target: { value } }) => setDetails(details => ({ ...details, report_location: value }))
@@ -194,7 +195,7 @@ export default function FaultReportForm(props) {
                                  ...details, report_reoccuring_on_same_vehicle: !details.report_reoccuring_on_same_vehicle }))} 
                             checked={details ? details.report_reoccuring_on_same_vehicle : null} id="reoccuring-on-same-vehicle-check"/>
                             
-                            <label className="form-check-label" htmlFor="reoccuring-on-same-vehicle-check" style={{marginRight: "1.5rem"}}>
+                            <label className="form-check-label report-label report-check-label" htmlFor="reoccuring-on-same-vehicle-check">
                                 התקלה משתחזרת על הכלי
                             </label>
                         </div>
@@ -206,7 +207,7 @@ export default function FaultReportForm(props) {
                                  ...details, report_reoccuring_on_other_vehicles: !details.report_reoccuring_on_other_vehicles }))} 
                             checked={details ? details.report_reoccuring_on_other_vehicles : null} id="reoccuring-on-other-vehicles-check"/>
 
-                            <label className="form-check-label" htmlFor="reoccuring-on-other-vehicles-check" style={{marginRight: "1.5rem"}}>
+                            <label className="form-check-label report-label report-check-label" htmlFor="reoccuring-on-other-vehicles-check">
                                 התקלה משתחזרת על כלים אחרים
                             </label>
                         </div>
@@ -220,7 +221,7 @@ export default function FaultReportForm(props) {
                                  ...details, report_appears_in_errors_file: !details.report_appears_in_errors_file }))} 
                             checked={details ? details.report_appears_in_errors_file : null} id="appears-in-errors-file-check"/>
 
-                            <label className="form-check-label" htmlFor="appears-in-errors-file-check" style={{marginRight: "1.5rem"}}>
+                            <label className="form-check-label report-label report-check-label" htmlFor="appears-in-errors-file-check">
                                 התקלה מופיעה בקובץ התקלות של המערכת
                             </label>
                         </div>
@@ -230,7 +231,7 @@ export default function FaultReportForm(props) {
                             <input className="form-check-input" type="checkbox" onChange={onTempSolutionFoundCheckClicked} 
                             checked={details ? details.report_temp_solution_found : null} id="temp-solution-found-check"/>
 
-                            <label className="form-check-label" htmlFor="temp-solution-found-check" style={{marginRight: "1.5rem"}}>
+                            <label className="form-check-label report-label report-check-label" htmlFor="temp-solution-found-check">
                                 נמצא פתרון זמני לתקלה אצל המדווח
                             </label>
                         </div>
@@ -238,7 +239,7 @@ export default function FaultReportForm(props) {
                 </div>
                 <br/>
                 <div className="form-group">
-                    <label className="form-label form-label-sm">תיאור הפתרון הזמני</label>
+                    <label className="form-label form-label-sm report-label">תיאור הפתרון הזמני</label>
                     <textarea value={details ? details.report_temp_solution_description : null} rows="3" 
                     onChange={
                         ({ target: { value } }) => setDetails(details => ({ ...details, report_temp_solution_description: value }))
