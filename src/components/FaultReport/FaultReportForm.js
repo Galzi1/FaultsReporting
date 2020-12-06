@@ -69,13 +69,9 @@ export default function FaultReportForm(props) {
                 alert("קרתה תקלה בדיווח התקלה");
             }
             console.log(res);
-            closeModal();
-        }, details, err => {
-            console.log(err.code);
-            console.log(err.message);
-            console.log(err.stack);
-            closeModal();
-        });
+            
+        }, details);
+        closeModal();
     }
 
     useEffect(() => {

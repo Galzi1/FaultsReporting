@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../styles/MainPage.css';
+import '../MainPage/MainPage.css';
 import ReportModal from './ReportModal';
 import ViewEditReportForm from './ViewEditReportForm';
 
@@ -41,7 +41,7 @@ export default function ViewEditReportModal(props) {
             isOpen = {isModalOpen} 
             onRequestClose = {closeModal} 
             title = {titleText} 
-            HostedComponent = {FormComponent}
+            hostedComponent = {FormComponent}
             appElement = {appElement}
             getSystems = {getSystems}
             getPlatforms = {getPlatforms}
