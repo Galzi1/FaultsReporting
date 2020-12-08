@@ -3,9 +3,15 @@ import { getRandomInt } from './common';
 
 var _default_err_callback = (err) => {
     if (err) {
-        console.error(err.code);
-        console.error(err.message);
-        console.error(err.stack);
+        if (err.code) {
+            console.error(err.code);
+        }
+        if (err.message) {
+            console.error(err.message);
+        }
+        if (err.stack) {
+            console.error(err.stack);
+        }
     }
 };
 

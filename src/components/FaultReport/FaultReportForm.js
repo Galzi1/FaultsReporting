@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import '../MainPage/MainPage.css';
 import './FaultReport.css';
+import formatISODate from '../../utils/common';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUpload, faLongArrowAltRight, faLongArrowAltLeft } from '@fortawesome/free-solid-svg-icons';
+import { faUpload, faLongArrowAltRight, faLongArrowAltLeft, faEdit, faSave } from '@fortawesome/free-solid-svg-icons';
 
 export default function FaultReportForm(props) {
     const serverConnection = props.serverConnection;
@@ -12,39 +13,39 @@ export default function FaultReportForm(props) {
     const systems = props.systems;
     
     const closeModal = props.closeModal;
-
-    //TODO: Delete this afterwards!
-    const emptyDetails = {
-        report_appears_in_errors_file: false, 
-        report_description: '',
-        report_fault_date: new Date(), 
-        report_location: '', 
-        report_platform: 0, 
-        report_platform_num: 0,  
-        report_reporting_date: new Date(), 
-        report_reporter_username: '', 
-        report_sub_platform: 0, 
-        report_system: 0, 
-        report_reoccuring_on_same_vehicle: false, 
-        report_reoccuring_on_other_vehicles: false, 
-        report_summary: '', 
-        report_temp_solution_description: '', 
-        report_temp_solution_found: false
-    }
+    const onEditingEnabled = props.onEditingEnabled;
+    const existingReport = props.existingReport;
 
     const displayedFormClass = "form-wrapper";
     const hiddenFormClass = "form-wrapper d-none";
 
-    const [details, setDetails] = useState(emptyDetails)
+    const displayedButtonClass = "btn btn-primary";
+    const hiddenButtonClass = "btn btn-primary d-none";
+
+    const [appearsInErrorsFile, setAppearsInErrorsFile] = useState(false);
+    const [description, setDescription] = useState('');
+    const [faultDate, setFaultDate] = useState(new Date());
+    const [location, setLocation] = useState('');
+    const [platform, setPlatform] = useState(0);
+    const [platformNum, setPlatformNum] = useState(0);
+    const [reportingDate, setReportingDate] = useState(new Date());
+    const [reporterUsername, setReporterUsername] = useState('');
+    const [subPlatform, setSubPlatform] = useState(0);
+    const [system, setSystem] = useState(0);
+    const [recurringOnSameVehicle, setRecurringOnSameVehicle] = useState(false);
+    const [recurringOnOtherVehicles, setRecurringOnOtherVehicles] = useState(false);
+    const [summary, setSummary] = useState('');
+    const [tempSolutionDescription, setTempSolutionDescription] = useState('');
+    const [tempSolutionFound, setTempSolutionFound] = useState(false);
+
     const [cachedTempSolutionDescription, setCachedTempSolutionDescription] = useState('');
 
     const onTempSolutionFoundCheckClicked = ({ target: { value } }) => {
-        const newTempSolutionFoundValue = details.report_temp_solution_found === undefined ? true : !details.report_temp_solution_found;
-        setDetails(details => ({
-            ...details, report_temp_solution_found: newTempSolutionFoundValue }));
-        document.getElementById("temp-solution-textarea").disabled = details.report_temp_solution_found;
+        const newTempSolutionFoundValue = tempSolutionFound  ? !tempSolutionFound : true
+        setTempSolutionFound(newTempSolutionFoundValue);
+        document.getElementById("temp-solution-textarea").disabled = tempSolutionFound;
 
-        setCachedTempSolutionDescription(newTempSolutionFoundValue ? details.report_temp_solution_description : '');
+        setCachedTempSolutionDescription(newTempSolutionFoundValue ? tempSolutionDescription : '');
     }
 
     const goToFirstPage = () => {
@@ -57,52 +58,153 @@ export default function FaultReportForm(props) {
         document.getElementById("fault-report-form-page2").className = displayedFormClass;
     }
 
-    const addReport = () => {
-        details.report_reporting_date = (new Date()).toISOString();
-        details.report_temp_solution_description = cachedTempSolutionDescription;
-        console.log(details);
-        serverConnection.addReport((res) => {
-            if (res.status.toString()[0] === "2") {
-                alert("התקלה דווחה בהצלחה!");
+    const submitReport = () => {
+        reportingDate = (new Date()).toISOString();
+        tempSolutionDescription = cachedTempSolutionDescription;
+        if (existingReport) {
+            if (!reportDetails || !reportDetails._id) {
+                console.error("Got existingReport == true but reportDetails or its _id is null");
+                return;
             }
-            else if (res.status.toString()[0] === "4") {
-                alert("קרתה תקלה בדיווח התקלה");
-            }
-            console.log(res);
-            
-        }, details);
+            serverConnection.updateReport((res) => {
+                if (res.status.toString()[0] === "2") {
+                    alert("התקלה עודכנה בהצלחה!");
+                }
+                else if (res.status.toString()[0] === "4") {
+                    alert("קרתה תקלה בעדכון התקלה");
+                }
+                console.log(res);
+            }, reportDetails._id, getDetailsFromState());
+        }
+        else {
+            serverConnection.addReport((res) => {
+                if (res.status.toString()[0] === "2") {
+                    alert("התקלה דווחה בהצלחה!");
+                }
+                else if (res.status.toString()[0] === "4") {
+                    alert("קרתה תקלה בדיווח התקלה");
+                }
+                console.log(res);
+            }, getDetailsFromState());
+        }
+        
         closeModal();
     }
 
     useEffect(() => {
         if (reportDetails) {
-            setDetails(reportDetails);
+            initDetails(reportDetails);
         }
-    }, [reportDetails]);
+    }, []);
+
+    const initDetails = (_details) => {
+        if (_details.appears_in_errors_file) {
+            setAppearsInErrorsFile(_details.appears_in_errors_file);
+        }
+        if (_details.description) {
+            setDescription(_details.description);
+        }
+        if (_details.fault_date) {
+            setFaultDate(_details.fault_date);
+        }
+        if (_details.location) {
+            setLocation(_details.location);
+        }
+        if (_details.platform) {
+            setPlatform(_details.platform);
+        }
+        if (_details.platform_num) {
+            setPlatformNum(_details.platform_num);
+        }
+        if (_details.reporting_date) {
+            setReportingDate(_details.reporting_date);
+        }
+        if (_details.reporter_username) {
+            setReporterUsername(_details.reporter_username);
+        }
+        if (_details.sub_platform) {
+            setSubPlatform(_details.sub_platform);
+        }
+        if (_details.system) {
+            setSystem(_details.system);
+        }
+        if (_details.recurring_on_same_vehicle) {
+            setRecurringOnSameVehicle(_details.recurring_on_same_vehicle);
+        }
+        if (_details.reoccuring_on_other_vehicles) {
+            setRecurringOnOtherVehicles(_details.reoccuring_on_other_vehicles);
+        }
+        if (_details.summary) {
+            setSummary(_details.summary);
+        }
+        if (_details.temp_solution_description) {
+            setTempSolutionDescription(_details.temp_solution_description);
+        }
+        if (_details.temp_solution_found) {
+            setTempSolutionFound(_details.temp_solution_found);
+        }
+    }
+
+    const getDetailsFromState = () => {
+        var tempDetails = {
+            appears_in_errors_file: appearsInErrorsFile, 
+            description: description,
+            fault_date: faultDate, 
+            location: location, 
+            platform: platform, 
+            platform_num: platformNum,  
+            reporting_date: reportingDate, 
+            reporter_username: reporterUsername, 
+            sub_platform: subPlatform, 
+            system: system, 
+            recurring_on_same_vehicle: recurringOnSameVehicle, 
+            recurring_on_other_vehicles: recurringOnOtherVehicles, 
+            summary: summary, 
+            temp_solution_description: tempSolutionDescription, 
+            temp_solution_found: tempSolutionFound
+        }
+
+        return tempDetails;
+    }
+
+    const enableEditing = () => {
+        var formControls = document.getElementsByClassName("form-control");
+        for(var i = 0; i < formControls.length; i++) {
+            formControls[i].disabled = false;
+        }
+
+        document.getElementById("edit-button1").className = hiddenButtonClass;
+        document.getElementById("edit-button2").className = hiddenButtonClass;
+        document.getElementById("submit-button").className = displayedButtonClass;
+
+        onEditingEnabled();
+    }
 
     return (
         <div>
             <form id="fault-report-form-page1" className={displayedFormClass}>
                 <div className="form-group">
                     <label className="form-label form-label-sm report-label">תקציר התקלה</label>
-                    <input value={details ? details.report_summary : null} 
-                        onChange={
-                            ({ target: { value } }) => setDetails(details => ({ ...details, report_summary: value }))
-                        } type="text" className="form-control form-control-sm" placeholder="תקציר התקלה"/>
+                    <input value={summary} onChange={
+                        e => setSummary(e.target.value)
+                    } type="text" className="form-control form-control-sm" placeholder="תקציר התקלה" disabled/>
                 </div>
                 <div className="form-group">
                     <label className="form-label form-label-sm report-label">תיאור התקלה</label>
-                    <textarea value={details ? details.report_description : null} rows="3" 
-                    onChange={
-                        ({ target: { value } }) => setDetails(details => ({ ...details, report_description: value }))
-                        } type="text" className="form-control form-control-sm" placeholder="תיאור התקלה (בפירוט)"/>
+                    <textarea value={description} rows="3" onChange={
+                            e => setDescription(e.target.value)
+                        } type="text" className="form-control form-control-sm" placeholder="תיאור התקלה (בפירוט)" disabled/>
+                </div>
+                <div className="form-group" style={{marginBottom: "1rem"}}>
+                    <label className="form-label form-label-sm report-label">המדווח על התקלה</label>
+                    <input value={reporterUsername} type="text" className="form-control form-control-sm" placeholder="המדווח על התקלה" disabled/>
                 </div>
                 <div className="row">
                     <div className="col-md-6">
                         <div className="form-group">
                             <label className="form-label form-label-sm report-label">פלטפורמה</label>
-                            <select value={details ? details.report_platform : "0"} onChange={({ target: { value } }) => setDetails(details => ({ ...details, report_platform: value }))} className="form-control form-control-sm">
-                                <option value="0">פלטפורמה</option>
+                            <select value={platform} onChange={e => setPlatform(e.target.value)} className="form-control form-control-sm" disabled>
+                                <option value="0" disabled>פלטפורמה</option>
                                 {
                                     platforms.map((platform, index) =>
                                         <option key={platform.id} value={platform.id}>{platform.name}</option>
@@ -114,11 +216,8 @@ export default function FaultReportForm(props) {
                     <div className="col-md-6">
                         <div className="form-group">
                             <label className="form-label form-label-sm report-label">מערכת</label>
-                            <select value={details ? details.report_system : "0"} onChange={
-                                ({ target: { value } }) => 
-                                    setDetails(details => ({ ...details, report_system: value }))
-                                } className="form-control form-control-sm">
-                                <option value="0">מערכת</option>
+                            <select value={system} onChange={e => setSystem(e.target.value)} className="form-control form-control-sm" disabled>
+                                <option value="0" disabled>מערכת</option>
                                 {
                                     systems.map((system, index) =>
                                         <option key={system.id} value={system.id}>{system.name}</option>
@@ -133,10 +232,8 @@ export default function FaultReportForm(props) {
                     <div className="col-md-6">
                         <div className="form-group">
                             <label className="form-label form-label-sm report-label">תת-פלטפורמה</label>
-                            <select value={details ? details.report_sub_platform : "0"} onChange={
-                                ({ target: { value } }) => setDetails(details => ({ ...details, report_sub_platform: value }))
-                            } className="form-control form-control-sm">
-                                <option value="0">תת-פלטפורמה</option>
+                            <select value={subPlatform} onChange={e => setSubPlatform(e.target.value)} className="form-control form-control-sm" disabled>
+                                <option value="0" disabled>תת-פלטפורמה</option>
                                 {
                                     subPlatforms.map((sub_platform, index) =>
                                         <option key={sub_platform.id} value={sub_platform.id}>{sub_platform.name}</option>
@@ -148,9 +245,8 @@ export default function FaultReportForm(props) {
                     <div className="col-md-6">
                     <div className="form-group">
                             <label className="form-label form-label-sm report-label">תאריך התקלה</label>
-                            <input onChange={({ target: { value } }) => setDetails(details => ({
-                                ...details, report_fault_date: (new Date(value)).toISOString() 
-                            }))} type="date" className="form-control form-control-sm" placeholder="תאריך התקלה"/>
+                            <input value={formatISODate(faultDate)} 
+                            onChange={e => setFaultDate(new Date(e.target.value)).toISOString()} type="date" className="form-control form-control-sm" placeholder="תאריך התקלה" disabled/>
                         </div>
                     </div>                         
                 </div>
@@ -159,25 +255,22 @@ export default function FaultReportForm(props) {
                     <div className="col-md-6">
                         <div className="form-group">
                             <label className="form-label form-label-sm report-label">מספר פלטפורמה</label>
-                            <input value={details ? details.report_platform_num : null} 
-                            onChange=
-                                {({ target: { value } }) => setDetails(details => ({ ...details, report_platform_num: value }))
-                            } type="number" className="form-control form-control-sm" placeholder="מספר פלטפורמה"/>
+                            <input value={platformNum} onChange={e => setPlatformNum(e.target.value)} type="number" className="form-control form-control-sm" placeholder="מספר פלטפורמה" disabled/>
                         </div>
                     </div>
                     <div className="col-md-6">
                         <div className="form-group">
                             <label className="form-label form-label-sm report-label">מיקום</label>
-                            <input value={details ? details.report_location : null} 
-                            onChange={
-                                ({ target: { value } }) => setDetails(details => ({ ...details, report_location: value }))
-                            } type="text" className="form-control form-control-sm" placeholder="מיקום"/>
+                            <input value={location} onChange={e => setLocation(e.target.value)} type="text" className="form-control form-control-sm" placeholder="מיקום" disabled/>
                         </div>
                     </div>                         
                 </div>
 
                 <div className="buttons-wrapper">
-                    <button id="finish-button" onClick={goToSecondPage} type="button" className="btn btn-primary">
+                    <button id="edit-button1" onClick={enableEditing} type="button" className={displayedButtonClass}>
+                        <FontAwesomeIcon icon={faEdit}/> ערוך
+                    </button>
+                    <button id="next-button" onClick={goToSecondPage} type="button" className="btn btn-primary">
                         <FontAwesomeIcon icon={faLongArrowAltLeft}/> המשך
                     </button>
                 </div>
@@ -186,11 +279,7 @@ export default function FaultReportForm(props) {
                 <div className="row">
                     <div className="col-md-6" style={{textAlign: "right"}}>
                         <div className="form-check pull-right">
-                            <input className="form-check-input" type="checkbox" onChange={
-                            ({ target: { value } }) => setDetails(details => ({
-                                 ...details, report_reoccuring_on_same_vehicle: !details.report_reoccuring_on_same_vehicle }))} 
-                            checked={details ? details.report_reoccuring_on_same_vehicle : null} id="reoccuring-on-same-vehicle-check"/>
-                            
+                            <input className="form-check-input" checked={recurringOnSameVehicle} type="checkbox" onChange={e => setRecurringOnSameVehicle(e.target.value)} id="recurring-on-same-vehicle-check"/>
                             <label className="form-check-label report-label report-check-label" htmlFor="reoccuring-on-same-vehicle-check">
                                 התקלה משתחזרת על הכלי
                             </label>
@@ -198,11 +287,7 @@ export default function FaultReportForm(props) {
                     </div>
                     <div className="col-md-6" style={{textAlign: "right"}}>
                         <div className="form-check pull-right">
-                            <input className="form-check-input" type="checkbox" onChange={
-                            ({ target: { value } }) => setDetails(details => ({
-                                 ...details, report_reoccuring_on_other_vehicles: !details.report_reoccuring_on_other_vehicles }))} 
-                            checked={details ? details.report_reoccuring_on_other_vehicles : null} id="reoccuring-on-other-vehicles-check"/>
-
+                            <input className="form-check-input" checked={recurringOnSameVehicle} type="checkbox" onChange={e => setRecurringOnOtherVehicles(e.target.value)} id="recurring-on-other-vehicles-check"/>
                             <label className="form-check-label report-label report-check-label" htmlFor="reoccuring-on-other-vehicles-check">
                                 התקלה משתחזרת על כלים אחרים
                             </label>
@@ -212,11 +297,7 @@ export default function FaultReportForm(props) {
                 <div className="row">
                     <div className="col-md-6" style={{textAlign: "right"}}>
                         <div className="form-check pull-right">
-                            <input className="form-check-input" type="checkbox" onChange={
-                            ({ target: { value } }) => setDetails(details => ({
-                                 ...details, report_appears_in_errors_file: !details.report_appears_in_errors_file }))} 
-                            checked={details ? details.report_appears_in_errors_file : null} id="appears-in-errors-file-check"/>
-
+                            <input className="form-check-input" type="checkbox" checked={appearsInErrorsFile} onChange={e => setAppearsInErrorsFile(e.target.value)} id="appears-in-errors-file-check"/>
                             <label className="form-check-label report-label report-check-label" htmlFor="appears-in-errors-file-check">
                                 התקלה מופיעה בקובץ התקלות של המערכת
                             </label>
@@ -225,7 +306,7 @@ export default function FaultReportForm(props) {
                     <div className="col-md-6" style={{textAlign: "right"}}>
                         <div className="form-check pull-right">
                             <input className="form-check-input" type="checkbox" onChange={onTempSolutionFoundCheckClicked} 
-                            checked={details ? details.report_temp_solution_found : null} id="temp-solution-found-check"/>
+                            checked={tempSolutionFound} id="temp-solution-found-check"/>
 
                             <label className="form-check-label report-label report-check-label" htmlFor="temp-solution-found-check">
                                 נמצא פתרון זמני לתקלה אצל המדווח
@@ -236,18 +317,23 @@ export default function FaultReportForm(props) {
                 <br/>
                 <div className="form-group">
                     <label className="form-label form-label-sm report-label">תיאור הפתרון הזמני</label>
-                    <textarea value={details ? details.report_temp_solution_description : null} rows="3" 
-                    onChange={
-                        ({ target: { value } }) => setDetails(details => ({ ...details, report_temp_solution_description: value }))
-                        } type="text" className="form-control form-control-sm" placeholder="תיאור הפתרון הזמני" id="temp-solution-textarea" disabled/>
+                    <textarea value={tempSolutionDescription} rows="3" 
+                    onChange={e => setTempSolutionDescription(e.target.value)} type="text" className="form-control form-control-sm" placeholder="תיאור הפתרון הזמני" id="temp-solution-textarea" disabled/>
+                </div>
+
+                <div className="buttons-wrapper">
+                    
                 </div>
 
                 <div className="buttons-wrapper">
                     <button id="back-button" onClick={goToFirstPage} type="button" className="btn btn-outline-primary">
                         <FontAwesomeIcon icon={faLongArrowAltRight}/> חזור
                     </button>
-                    <button id="finish-button" onClick={addReport} type="submit" className="btn btn-primary">
-                        <FontAwesomeIcon icon={faUpload}/> סיים
+                    <button id="edit-button2" onClick={enableEditing} type="button" className={displayedButtonClass}>
+                        <FontAwesomeIcon icon={faEdit}/> ערוך
+                    </button>
+                    <button id="submit-button" onClick={submitReport} type="submit" className={hiddenButtonClass}>
+                        <FontAwesomeIcon icon={faSave}/> סיים
                     </button>
                 </div>
             </form>

@@ -18,7 +18,6 @@ export default function ViewEditReportForm(props) {
     const displayedButtonClass = "btn btn-primary";
     const hiddenButtonClass = "btn btn-primary d-none";
 
-    const [details, setDetails] = useState();
     const [appearsInErrorsFile, setAppearsInErrorsFile] = useState(false);
     const [description, setDescription] = useState('');
     const [faultDate, setFaultDate] = useState(new Date());
@@ -109,7 +108,7 @@ export default function ViewEditReportForm(props) {
             temp_solution_found: tempSolutionFound
         }
 
-        setDetails(tempDetails);
+        return tempDetails;
     }
 
     const enableEditing = () => {
@@ -134,7 +133,7 @@ export default function ViewEditReportForm(props) {
             }
             console.log(res);
             closeViewEditReportModal();
-        }, reportDetails._id, getDetailsFromState(details));
+        }, reportDetails._id, getDetailsFromState());
     }
 
     return (
@@ -195,7 +194,7 @@ export default function ViewEditReportForm(props) {
                     </div>
                 </div>
                 <div className="col-md-6">
-                <div className="form-group">
+                    <div className="form-group">
                         <label className="form-label form-label-sm">תאריך התקלה</label>
                         <input value={formatISODate(faultDate)} 
                         onChange={e => setFaultDate(new Date(e.target.value)).toISOString()} type="date" className="form-control form-control-sm" placeholder="תאריך התקלה" disabled/>

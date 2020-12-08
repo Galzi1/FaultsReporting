@@ -257,7 +257,7 @@ export default function ReportsTable(props) {
             {/* <div className="button-wrapper">
                 <button onClick={openNewReportModal} type="button" className="btn btn-outline-primary">פתח תקלה חדשה</button>
             </div> */}
-            <ViewEditReportModal 
+            <FaultReportModal 
                     id="view-edit-report-modal" 
                     serverConnection={serverConnection}
                     reportDetails={selectedReport} 
