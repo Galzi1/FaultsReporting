@@ -20,7 +20,7 @@ export default function FaultReportForm(props) {
     const hiddenFormClass = "form-wrapper d-none";
 
     const displayedButtonClass = "btn btn-primary";
-    const hiddenButtonClass = "btn btn-primary d-none";
+    const hiddenButtonClass = "btn btn-primary invisible";
 
     const [appearsInErrorsFile, setAppearsInErrorsFile] = useState(false);
     const [description, setDescription] = useState('');
@@ -40,6 +40,11 @@ export default function FaultReportForm(props) {
 
     const [cachedTempSolutionDescription, setCachedTempSolutionDescription] = useState('');
 
+    const [page1Class, setPage1Class] = useState(displayedFormClass);
+    const [page2Class, setPage2Class] = useState(hiddenFormClass);
+    const [editButtonClass, setEditButtonClass] = useState('center-button ' + displayedButtonClass);
+    const [submitButtonClass, setSubmitButtonClass] = useState('left-button ' + existingReport ? hiddenButtonClass : displayedButtonClass);
+
     const onTempSolutionFoundCheckClicked = ({ target: { value } }) => {
         const newTempSolutionFoundValue = tempSolutionFound  ? !tempSolutionFound : true
         setTempSolutionFound(newTempSolutionFoundValue);
@@ -49,13 +54,13 @@ export default function FaultReportForm(props) {
     }
 
     const goToFirstPage = () => {
-        document.getElementById("fault-report-form-page1").className = displayedFormClass;
-        document.getElementById("fault-report-form-page2").className = hiddenFormClass;
+        setPage1Class(displayedFormClass);
+        setPage2Class(hiddenFormClass);
     }
 
     const goToSecondPage = () => {
-        document.getElementById("fault-report-form-page1").className = hiddenFormClass;
-        document.getElementById("fault-report-form-page2").className = displayedFormClass;
+        setPage1Class(hiddenFormClass);
+        setPage2Class(displayedFormClass);
     }
 
     const submitReport = () => {
@@ -173,16 +178,15 @@ export default function FaultReportForm(props) {
             formControls[i].disabled = false;
         }
 
-        document.getElementById("edit-button1").className = hiddenButtonClass;
-        document.getElementById("edit-button2").className = hiddenButtonClass;
-        document.getElementById("submit-button").className = displayedButtonClass;
+        setEditButtonClass('center-button ' + hiddenButtonClass);
+        setSubmitButtonClass('left-button ' + displayedButtonClass);
 
         onEditingEnabled();
     }
 
     return (
         <div>
-            <form id="fault-report-form-page1" className={displayedFormClass}>
+            <form id="fault-report-form-page1" className={page1Class}>
                 <div className="form-group">
                     <label className="form-label form-label-sm report-label">תקציר התקלה</label>
                     <input value={summary} onChange={
@@ -267,15 +271,18 @@ export default function FaultReportForm(props) {
                 </div>
 
                 <div className="buttons-wrapper">
-                    <button id="edit-button1" onClick={enableEditing} type="button" className={displayedButtonClass}>
+                    <button id="placeholder-butotn" type="button" className="btn invisible">
+                        <FontAwesomeIcon icon={faEdit}/> זמני
+                    </button>
+                    <button id="edit-button1" onClick={enableEditing} type="button" className={editButtonClass}>
                         <FontAwesomeIcon icon={faEdit}/> ערוך
                     </button>
-                    <button id="next-button" onClick={goToSecondPage} type="button" className="btn btn-primary">
+                    <button id="next-button" onClick={goToSecondPage} type="button" className="btn btn-primary left-button">
                         <FontAwesomeIcon icon={faLongArrowAltLeft}/> המשך
                     </button>
                 </div>
             </form>
-            <form id="fault-report-form-page2" className={hiddenFormClass}>
+            <form id="fault-report-form-page2" className={page2Class}>
                 <div className="row">
                     <div className="col-md-6" style={{textAlign: "right"}}>
                         <div className="form-check pull-right">
@@ -322,17 +329,13 @@ export default function FaultReportForm(props) {
                 </div>
 
                 <div className="buttons-wrapper">
-                    
-                </div>
-
-                <div className="buttons-wrapper">
-                    <button id="back-button" onClick={goToFirstPage} type="button" className="btn btn-outline-primary">
+                    <button id="back-button" onClick={goToFirstPage} type="button" className="btn btn-outline-primary right-button">
                         <FontAwesomeIcon icon={faLongArrowAltRight}/> חזור
                     </button>
-                    <button id="edit-button2" onClick={enableEditing} type="button" className={displayedButtonClass}>
+                    <button id="edit-button2" onClick={enableEditing} type="button" className={editButtonClass}>
                         <FontAwesomeIcon icon={faEdit}/> ערוך
                     </button>
-                    <button id="submit-button" onClick={submitReport} type="submit" className={hiddenButtonClass}>
+                    <button id="submit-button" onClick={submitReport} type="submit" className={submitButtonClass}>
                         <FontAwesomeIcon icon={faSave}/> סיים
                     </button>
                 </div>
