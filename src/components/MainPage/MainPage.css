@@ -10,8 +10,12 @@ body,
     color: #1B507C;
 }
 
+.black-text{
+    color: black;
+}
+
 .white_text{
-color: white;
+    color: white;
 }
 
 .mainPage .header {

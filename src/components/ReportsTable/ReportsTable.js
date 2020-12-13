@@ -5,17 +5,18 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import FaultReportModal from '../FaultReport/FaultReportModal';
+import ViewEditReportModal from '../FaultReport/ViewEditReportModal';
 import Fab from '@material-ui/core/Fab';
 import { withStyles } from '@material-ui/core/styles';
 import './ReportsTable.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faSyncAlt, faPen, faEye} from '@fortawesome/free-solid-svg-icons';
-import Modal from 'react-bootstrap/esm/Modal';
-import Button from 'react-bootstrap/esm/Button';
 import reports from '../../data/reports.json'
 
 
 export default function ReportsTable(props) {
+
     // Handle Props
     const getReports = props.getReports;
     const serverConnection = props.serverConnection;
@@ -41,7 +42,8 @@ export default function ReportsTable(props) {
     const [fault_system, setFault_System] = useState('');
     const [fault_idPlatform, setFault_idPlatform] = useState('');
     const [reportsState, setReportState] = useState(reports);
-
+    const [isNewReportModalOpen, setIsNewReportModalOpen] = useState(false);
+    const [isViewEditReportModalOpen, setIsViewEditReportModalOpen] = useState(false);
     ////
 
 
@@ -107,16 +109,42 @@ export default function ReportsTable(props) {
 
     const closeAddReportModal = () => setAddReportModal(false);
 
-    // useEffect(() => {
-    //     getReports();
-    // }, []);
+    function openNewReportModal() {
+        setIsNewReportModalOpen(true);
+    }
+
+    function closeNewReportModal() {
+        getReports();
+        setIsNewReportModalOpen(false);
+    }
+
+    function openViewEditReportModal(report) {
+        setIsViewEditReportModalOpen(true);
+        if (report) {
+            onSelectReportOnTable(report);
+        }
+    }
+
+    function closeViewEditReportModal() {
+        getReports();
+        setIsViewEditReportModalOpen(false);
+    }
+
+    useEffect(() => {
+        getReports();
+    }, []);
 
     const renderTableData = () => {
-        return reportsState.map((report) => {
+        return tableData.map((report) => {
+        //return reportsState.map((report) => {
             return (<StyledTableRow key={report._id}>
-                <StyledTableCell align="center" ><FontAwesomeIcon size="xs" icon={faEye} /></StyledTableCell>
-                <StyledTableCell align="center" ><span className="HyperlinkText" onClick={() => onSelectReportOnTable(report)}>{report._id}</span></StyledTableCell>
-                <StyledTableCell align="center" >addf</StyledTableCell>
+                <StyledTableCell align="center">
+                    <Fab aria-label="view" size="small" onClick={() => openViewEditReportModal(report)}>
+                        <FontAwesomeIcon icon={faEye}/>
+                    </Fab>
+                </StyledTableCell>
+                <StyledTableCell align="center" ><span className="HyperlinkText" onClick={() => {onSelectReportOnTable(report)}}>{report._id}</span></StyledTableCell>
+                <StyledTableCell align="center" >{report.summary}</StyledTableCell>
                 <StyledTableCell align="center" >{new Date(report.reporting_date).toLocaleDateString("he-IL", "short") || "-"}</StyledTableCell>
                 <StyledTableCell align="center" >{report.priority || "טרם הוגדר"}</StyledTableCell>
                 <StyledTableCell align="center" >{"-"}</StyledTableCell>
@@ -181,11 +209,11 @@ export default function ReportsTable(props) {
     }
 
     return (
-        <div>
+        <div id="reports-table">
             <div className="Header">
                 <FontAwesomeIcon className="reload_icon" icon={faSyncAlt} size="2x" />
                 <span>{dictionary.newReport}</span>
-                <Fab aria-label="add" size="small" className="add_button" onClick={openAddReportModal}>
+                <Fab aria-label="add" size="small" className="add_button" onClick={openNewReportModal}>
                     <FontAwesomeIcon size="xs" icon={faPlus} />
                 </Fab>
             </div>
@@ -197,7 +225,7 @@ export default function ReportsTable(props) {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Modal
+            {/* <Modal
                 show={addReportModal} onHide={closeAddReportModal}
                 size="lg"
                 className="AddReport"
@@ -214,8 +242,35 @@ export default function ReportsTable(props) {
                 <Modal.Footer className="footer">
                     <Button className="btn" style={{ backgroundColor: "#1B507C" }}>{dictionary.save} </Button>
                 </Modal.Footer>
-            </Modal>
-
+            </Modal> */}
+            <FaultReportModal
+                    id="fault-report-modal"
+                    serverConnection={serverConnection}
+                    isModalOpen={isNewReportModalOpen}
+                    closeModal={closeNewReportModal}
+                    platforms = {platforms} 
+                    subPlatforms = {subPlatforms} 
+                    systems = {systems} 
+                    appElement={appElement} 
+                    getSystems = {getSystems}
+                    getPlatforms = {getPlatforms}
+                    getSubPlatforms = {getSubPlatforms}/>
+            {/* <div className="button-wrapper">
+                <button onClick={openNewReportModal} type="button" className="btn btn-outline-primary">פתח תקלה חדשה</button>
+            </div> */}
+            <FaultReportModal 
+                    id="view-edit-report-modal" 
+                    serverConnection={serverConnection}
+                    reportDetails={selectedReport} 
+                    isModalOpen={isViewEditReportModalOpen} 
+                    closeModal={closeViewEditReportModal} 
+                    platforms = {platforms} 
+                    subPlatforms = {subPlatforms} 
+                    systems = {systems}     
+                    appElement={appElement} 
+                    getSystems = {getSystems}
+                    getPlatforms = {getPlatforms}
+                    getSubPlatforms = {getSubPlatforms}/>
         </div>
     )
 }
