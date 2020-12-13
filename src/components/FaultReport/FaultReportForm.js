@@ -24,11 +24,11 @@ export default function FaultReportForm(props) {
 
     const [appearsInErrorsFile, setAppearsInErrorsFile] = useState(false);
     const [description, setDescription] = useState('');
-    const [faultDate, setFaultDate] = useState(new Date());
+    const [faultDate, setFaultDate] = useState((new Date()).toISOString());
     const [location, setLocation] = useState('');
     const [platform, setPlatform] = useState(0);
     const [platformNum, setPlatformNum] = useState(0);
-    const [reportingDate, setReportingDate] = useState(new Date());
+    const [reportingDate, setReportingDate] = useState((new Date()).toISOString());
     const [reporterUsername, setReporterUsername] = useState('');
     const [subPlatform, setSubPlatform] = useState(0);
     const [system, setSystem] = useState(0);
@@ -42,10 +42,11 @@ export default function FaultReportForm(props) {
 
     const [page1Class, setPage1Class] = useState(displayedFormClass);
     const [page2Class, setPage2Class] = useState(hiddenFormClass);
-    const [editButtonClass, setEditButtonClass] = useState('center-button ' + displayedButtonClass);
-    const [submitButtonClass, setSubmitButtonClass] = useState('left-button ' + existingReport ? hiddenButtonClass : displayedButtonClass);
+    const [editButtonClass, setEditButtonClass] = useState('center-button ' + (!!existingReport ? displayedButtonClass : hiddenButtonClass));
+    const [submitButtonClass, setSubmitButtonClass] = useState('left-button ' + (!!existingReport ? hiddenButtonClass : displayedButtonClass));
 
-    const onTempSolutionFoundCheckClicked = ({ target: { value } }) => {
+    const onTempSolutionFoundCheckClicked = (e) => {
+        let value = e.target.value === "on";
         const newTempSolutionFoundValue = tempSolutionFound  ? !tempSolutionFound : true
         setTempSolutionFound(newTempSolutionFoundValue);
         document.getElementById("temp-solution-textarea").disabled = tempSolutionFound;
@@ -64,9 +65,8 @@ export default function FaultReportForm(props) {
     }
 
     const submitReport = () => {
-        reportingDate = (new Date()).toISOString();
-        tempSolutionDescription = cachedTempSolutionDescription;
-        if (existingReport) {
+        setTempSolutionDescription(cachedTempSolutionDescription);
+        if (!!existingReport) {
             if (!reportDetails || !reportDetails._id) {
                 console.error("Got existingReport == true but reportDetails or its _id is null");
                 return;
@@ -99,6 +99,10 @@ export default function FaultReportForm(props) {
     useEffect(() => {
         if (reportDetails) {
             initDetails(reportDetails);
+        }
+
+        if (existingReport === void 0) {
+            enableFormControls();
         }
     }, []);
 
@@ -173,15 +177,21 @@ export default function FaultReportForm(props) {
     }
 
     const enableEditing = () => {
-        var formControls = document.getElementsByClassName("form-control");
-        for(var i = 0; i < formControls.length; i++) {
-            formControls[i].disabled = false;
-        }
+        enableFormControls();
 
         setEditButtonClass('center-button ' + hiddenButtonClass);
         setSubmitButtonClass('left-button ' + displayedButtonClass);
 
         onEditingEnabled();
+    }
+
+    const enableFormControls = () => {
+        var formControls = document.getElementsByClassName("form-control");
+        for(var i = 0; i < formControls.length; i++) {
+            if (!formControls[i].classList.contains('starts-disabled')) {
+                formControls[i].disabled = false;
+            }
+        }
     }
 
     return (
@@ -250,7 +260,7 @@ export default function FaultReportForm(props) {
                     <div className="form-group">
                             <label className="form-label form-label-sm report-label">תאריך התקלה</label>
                             <input value={formatISODate(faultDate)} 
-                            onChange={e => setFaultDate(new Date(e.target.value)).toISOString()} type="date" className="form-control form-control-sm" placeholder="תאריך התקלה" disabled/>
+                            onChange={e => setFaultDate((new Date(e.target.value)).toISOString())} type="date" className="form-control form-control-sm" placeholder="תאריך התקלה" disabled/>
                         </div>
                     </div>                         
                 </div>
@@ -286,7 +296,7 @@ export default function FaultReportForm(props) {
                 <div className="row">
                     <div className="col-md-6" style={{textAlign: "right"}}>
                         <div className="form-check pull-right">
-                            <input className="form-check-input" checked={recurringOnSameVehicle} type="checkbox" onChange={e => setRecurringOnSameVehicle(e.target.value)} id="recurring-on-same-vehicle-check"/>
+                            <input className="form-check-input" checked={recurringOnSameVehicle} type="checkbox" onChange={e => setRecurringOnSameVehicle(e.target.value === "on")} id="recurring-on-same-vehicle-check"/>
                             <label className="form-check-label report-label report-check-label" htmlFor="reoccuring-on-same-vehicle-check">
                                 התקלה משתחזרת על הכלי
                             </label>
@@ -294,7 +304,7 @@ export default function FaultReportForm(props) {
                     </div>
                     <div className="col-md-6" style={{textAlign: "right"}}>
                         <div className="form-check pull-right">
-                            <input className="form-check-input" checked={recurringOnSameVehicle} type="checkbox" onChange={e => setRecurringOnOtherVehicles(e.target.value)} id="recurring-on-other-vehicles-check"/>
+                            <input className="form-check-input" checked={recurringOnOtherVehicles} type="checkbox" onChange={e => setRecurringOnOtherVehicles(e.target.value === "on")} id="recurring-on-other-vehicles-check"/>
                             <label className="form-check-label report-label report-check-label" htmlFor="reoccuring-on-other-vehicles-check">
                                 התקלה משתחזרת על כלים אחרים
                             </label>
@@ -304,7 +314,7 @@ export default function FaultReportForm(props) {
                 <div className="row">
                     <div className="col-md-6" style={{textAlign: "right"}}>
                         <div className="form-check pull-right">
-                            <input className="form-check-input" type="checkbox" checked={appearsInErrorsFile} onChange={e => setAppearsInErrorsFile(e.target.value)} id="appears-in-errors-file-check"/>
+                            <input className="form-check-input" type="checkbox" checked={appearsInErrorsFile} onChange={e => setAppearsInErrorsFile(e.target.value === "on")} id="appears-in-errors-file-check"/>
                             <label className="form-check-label report-label report-check-label" htmlFor="appears-in-errors-file-check">
                                 התקלה מופיעה בקובץ התקלות של המערכת
                             </label>
@@ -325,7 +335,7 @@ export default function FaultReportForm(props) {
                 <div className="form-group">
                     <label className="form-label form-label-sm report-label">תיאור הפתרון הזמני</label>
                     <textarea value={tempSolutionDescription} rows="3" 
-                    onChange={e => setTempSolutionDescription(e.target.value)} type="text" className="form-control form-control-sm" placeholder="תיאור הפתרון הזמני" id="temp-solution-textarea" disabled/>
+                    onChange={e => setTempSolutionDescription(e.target.value)} type="text" className="form-control form-control-sm starts-disabled" placeholder="תיאור הפתרון הזמני" id="temp-solution-textarea" disabled/>
                 </div>
 
                 <div className="buttons-wrapper">
