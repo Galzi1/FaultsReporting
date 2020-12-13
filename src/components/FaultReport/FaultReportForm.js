@@ -211,7 +211,7 @@ export default function FaultReportForm(props) {
                 </div>
                 <div className="form-group" style={{marginBottom: "1rem"}}>
                     <label className="form-label form-label-sm report-label">המדווח על התקלה</label>
-                    <input value={reporterUsername} type="text" className="form-control form-control-sm" placeholder="המדווח על התקלה" disabled/>
+                    <input value={reporterUsername} type="text" className="form-control form-control-sm starts-disabled" placeholder="המדווח על התקלה" disabled/>
                 </div>
                 <div className="row">
                     <div className="col-md-6">
