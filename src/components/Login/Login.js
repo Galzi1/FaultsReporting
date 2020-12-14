@@ -7,8 +7,9 @@ import Button from 'react-bootstrap/Button';
 import { useAuthContext } from './AuthApi';
 // import {useHistory} from "react-router-dom";
 
-export default function Login() {
+export default function Login(props) {
     // const history = useHistory();
+    const serverConnection = props.serverConnection;
 
     const dictionary = {
         user: 'שם משתמש',
@@ -52,6 +53,31 @@ export default function Login() {
         GUEST: "guest",
     }
 
+    const validateUsernamePassword = (_username, _password, callback = null, err_callback = null) => {
+        serverConnection.validateUsernamePassword(res => {
+            if (res.status === 200) {
+                alert("התחברת בהצלחה");
+                setAuth(permission.ADMIN);
+            }
+            if (callback) {
+                callback();
+            }
+        }, _username, _password, err => {
+            if (err) {
+                alert("שם משתמש או סיסמה לא נכונים");
+                if (err.code) {
+                    console.error(err.code);
+                }
+                if (err.message) {
+                    console.error(err.message);
+                }
+                if (err.stack) {
+                    console.error(err.stack);
+                }
+            }
+        });
+    }
+
     const onLogin = () => {
         // axios.post('http://' + ServerIp + '/login',
         //     {
@@ -69,15 +95,18 @@ export default function Login() {
         //     })
         //     .catch(err => {
         //     })
-        if (name === "admin" && password === "12345") {
-            alert("התחברת בהצלחה");
-            setAuth(
-                permission.ADMIN
-            )
-        }
-        else {
-            alert("שם משתמש או סיסמה לא נכונים");
-        }
+
+        // if (name === "admin" && password === "12345") {
+        //     alert("התחברת בהצלחה");
+        //     setAuth(
+        //         permission.ADMIN
+        //     )
+        // }
+        // else {
+        //     alert("שם משתמש או סיסמה לא נכונים");
+        // }
+
+        validateUsernamePassword(name, password);
     }
 
     const onRegistration = () => {

@@ -196,5 +196,39 @@ export default class ServerConnection {
             }
         });
     }
+
+    createUser = (callback, user, err_callback = null) => {
+        const createUserUrl = `${this.ip}:${this.port}/users/create`;
+        axios
+        .post(createUserUrl, user, {
+            timeout: 5000
+        })
+        .then(callback)
+        .catch(err => {
+            if (err_callback) {
+                err_callback(err);
+            }
+            else {
+                _default_err_callback(err);
+            }
+        });
+    }
+
+    validateUsernamePassword = (callback, username, password, err_callback = null) => {
+        const validateUsernamePasswordUrl = `${this.ip}:${this.port}/users/validate/${username}/${password}`;
+        axios
+        .get(validateUsernamePasswordUrl, {
+            timeout: 5000
+        })
+        .then(callback)
+        .catch(err => {
+            if (err_callback) {
+                err_callback(err);
+            }
+            else {
+                _default_err_callback(err);
+            }
+        });
+    }
 }
 
