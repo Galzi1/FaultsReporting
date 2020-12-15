@@ -13,6 +13,8 @@ export default function MainPage(props) {
     const self = document.getElementById("main-page"); //Getting current element manually as no better method found
     const serverConnection = props.serverConnection;
 
+    const loggedUserName = sessionStorage.getItem("loggedUser");
+
     const dictionary = {
         user:"Yossi K",
         system_name: "מערכת דיווח תקלות",
@@ -108,7 +110,7 @@ export default function MainPage(props) {
                     <Clock className={'clock white_text'} format={'HH:mm:ss'} ticking={true} />
                 </div>
                 <div className="nav">
-                    <p className={"white_text"}>{dictionary.user}</p>
+                    <p className={"white_text"}>{loggedUserName}</p>
                     <button className="navbar-toggler menu" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <FontAwesomeIcon icon={faBars} />
                     </button>

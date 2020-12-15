@@ -4,7 +4,7 @@ import './Login.css'
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 // import axios from 'axios'
-import { useAuthContext } from './AuthApi';
+import { useAuthContext, permission } from './AuthApi';
 // import {useHistory} from "react-router-dom";
 
 export default function Login(props) {
@@ -38,7 +38,7 @@ export default function Login(props) {
 
 
     const onKeyPress = (e) => {
-        if (e.key == ENTER_KEY || e.code == ENTER_KEY || e.keyCode == ENTER_KEY_CODE) {
+        if (e.key === ENTER_KEY || e.code === ENTER_KEY || e.keyCode === ENTER_KEY_CODE) {
             stopBubbling(e)
             onLogin()
         }
@@ -49,16 +49,22 @@ export default function Login(props) {
         return () => window.removeEventListener("keypress", onKeyPress);
     }, [userName, password]);
 
-    const permission = {
-        ADMIN: "admin",
-        GUEST: "guest",
-    };
-
     const validateUsernamePassword = (callback = null, err_callback = null) => {
         serverConnection.validateUsernamePassword(res => {
             if (res.status === 200) {
                 alert("התחברת בהצלחה");
-                setAuth(permission.ADMIN);
+                const loggedUser = res.data;
+
+                if (loggedUser && loggedUser.username === 'admin') {
+                    setAuth(permission.ADMIN);
+                    console.log("Logged in as administrator");
+                }
+                else {
+                    setAuth(permission.GUEST);
+                    console.log("Logged in as guest");
+                }
+
+                sessionStorage.setItem("loggedUser",loggedUser.username);
             }
             if (callback) {
                 callback();
@@ -97,8 +103,8 @@ export default function Login(props) {
             const tempUser = getUserFromState();
             serverConnection.createUser(res => {
                 if (res.status.toString()[0] === "2") {
-                    alert("התחברת בהצלחה");
-                    setAuth(permission.ADMIN);
+                    alert("נרשמת בהצלחה");
+                    validateUsernamePassword();
                 }
                 if (callback) {
                     callback();
@@ -147,7 +153,7 @@ export default function Login(props) {
         //     alert("שם משתמש או סיסמה לא נכונים");
         // }
 
-        validateUsernamePassword(userName, password);
+        validateUsernamePassword();
     }
 
     const onRegistration = () => {
