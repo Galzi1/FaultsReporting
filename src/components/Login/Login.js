@@ -17,23 +17,24 @@ export default function Login(props) {
         registration: 'הרשמה',
         connect: 'התחבר',
         save: "שמור",
-        reporterTask: "תפקיד",
+        role: "תפקיד",
         unit: "יחידה",
         phone: "נייד",
         registration_text: "נא למלא כל הפרטים"
-    }
+    };
     const ENTER_KEY = "Enter";
     const ENTER_KEY_CODE = 13;
 
-    const [name, setName] = useState('')
-    const [password, setPassword] = useState('')
-    const [showRegistration, setShowRegistration] = useState(false)
-    const [userName, setUserName] = useState('')
-    const [phone, setPhone] = useState('')
-    const [reporterTask, setReporterTask] = useState('')
-    const [unitName, setUnitName] = useState('')
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [password, setPassword] = useState('');
+    const [showRegistration, setShowRegistration] = useState(false);
+    const [userName, setUserName] = useState('');
+    const [phone, setPhone] = useState('');
+    const [role, setRole] = useState('');
+    const [unitName, setUnitName] = useState('');
 
-    const { setAuth } = useAuthContext()
+    const { setAuth } = useAuthContext();
 
 
     const onKeyPress = (e) => {
@@ -41,19 +42,19 @@ export default function Login(props) {
             stopBubbling(e)
             onLogin()
         }
-    }
+    };
 
     useEffect(() => {
-        window.addEventListener("keypress", onKeyPress)
-        return () => window.removeEventListener("keypress", onKeyPress)
-    }, [name, password])
+        window.addEventListener("keypress", onKeyPress);
+        return () => window.removeEventListener("keypress", onKeyPress);
+    }, [userName, password]);
 
     const permission = {
         ADMIN: "admin",
         GUEST: "guest",
-    }
+    };
 
-    const validateUsernamePassword = (_username, _password, callback = null, err_callback = null) => {
+    const validateUsernamePassword = (callback = null, err_callback = null) => {
         serverConnection.validateUsernamePassword(res => {
             if (res.status === 200) {
                 alert("התחברת בהצלחה");
@@ -62,7 +63,7 @@ export default function Login(props) {
             if (callback) {
                 callback();
             }
-        }, _username, _password, err => {
+        }, userName, password, err => {
             if (err) {
                 alert("שם משתמש או סיסמה לא נכונים");
                 if (err.code) {
@@ -76,7 +77,47 @@ export default function Login(props) {
                 }
             }
         });
+    };
+
+    const getUserFromState = () => {
+        var tempUser = {
+            first_name: firstName, 
+            last_name: lastName,
+            username: userName, 
+            password: password, 
+            phone_number: phone, 
+            unit: unitName,  
+            role: role
+        }
+
+        return tempUser;
     }
+
+    const registerUser = (callback = null, err_callback = null) => {
+            const tempUser = getUserFromState();
+            serverConnection.createUser(res => {
+                if (res.status.toString()[0] === "2") {
+                    alert("התחברת בהצלחה");
+                    setAuth(permission.ADMIN);
+                }
+                if (callback) {
+                    callback();
+                }
+            }, tempUser, err => {
+                if (err) {
+                    alert("אירעה שגיאה בהרשמה");
+                    if (err.code) {
+                        console.error(err.code);
+                    }
+                    if (err.message) {
+                        console.error(err.message);
+                    }
+                    if (err.stack) {
+                        console.error(err.stack);
+                    }
+                }
+            });
+    };
 
     const onLogin = () => {
         // axios.post('http://' + ServerIp + '/login',
@@ -106,7 +147,7 @@ export default function Login(props) {
         //     alert("שם משתמש או סיסמה לא נכונים");
         // }
 
-        validateUsernamePassword(name, password);
+        validateUsernamePassword(userName, password);
     }
 
     const onRegistration = () => {
@@ -126,7 +167,7 @@ export default function Login(props) {
         //     })
         //     .catch(err => {
         //     })
-        alert("registration");
+        registerUser();
     }
 
     const stopBubbling = (event) => {
@@ -156,7 +197,7 @@ export default function Login(props) {
                 <h3>כניסה למערכת</h3>
                 <div className='Card'>
                     <label>{dictionary.user + ':'}</label>
-                    <input name="user" type="text" onChange={e => setName(e.target.value)} required />
+                    <input name="user" type="text" value={userName} onChange={e => setUserName(e.target.value)} required />
                     <label>{dictionary.password + ':'}</label>
                     <input name="password " type="password" onChange={e => setPassword(e.target.value)} required />
                 </div>
@@ -184,8 +225,8 @@ export default function Login(props) {
                             <input name='phone' type="number" onChange={e => setPhone(e.target.value)} required />
                             <label>{dictionary.unit + ':'}</label>
                             <input name='unitname' onChange={e => setUnitName(e.target.value)} required />
-                            <label>{dictionary.reporterTask + ':'}</label>
-                            <input name='reporterTask' onChange={e => setReporterTask(e.target.value)} required />
+                            <label>{dictionary.role + ':'}</label>
+                            <input name='role' onChange={e => setRole(e.target.value)} required />
                         </div>
                     </Modal.Body>
                     <Modal.Footer className="footer">

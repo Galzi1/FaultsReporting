@@ -66,6 +66,7 @@ export default function FaultReportForm(props) {
 
     const submitReport = () => {
         setTempSolutionDescription(cachedTempSolutionDescription);
+        const tempDetails = getDetailsFromState();
         if (!!existingReport) {
             if (!reportDetails || !reportDetails._id) {
                 console.error("Got existingReport == true but reportDetails or its _id is null");
@@ -79,7 +80,7 @@ export default function FaultReportForm(props) {
                     alert("קרתה תקלה בעדכון התקלה");
                 }
                 console.log(res);
-            }, reportDetails._id, getDetailsFromState());
+            }, reportDetails._id, tempDetails);
         }
         else {
             serverConnection.addReport((res) => {
@@ -90,7 +91,7 @@ export default function FaultReportForm(props) {
                     alert("קרתה תקלה בדיווח התקלה");
                 }
                 console.log(res);
-            }, getDetailsFromState());
+            }, tempDetails);
         }
         
         closeModal();
