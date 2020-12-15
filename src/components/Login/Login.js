@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button';
 // import axios from 'axios'
 import { useAuthContext, permission } from './AuthApi';
 // import {useHistory} from "react-router-dom";
+import Registration from './Registration';
 
 export default function Login(props) {
     // const history = useHistory();
@@ -49,7 +50,10 @@ export default function Login(props) {
         return () => window.removeEventListener("keypress", onKeyPress);
     }, [userName, password]);
 
-    const validateUsernamePassword = (callback = null, err_callback = null) => {
+    const validateUsernamePassword = (userState = null, callback = null, err_callback = null) => {
+        const _userName = !!userState ? userState.username : userName;
+        const _password = !!userState ? userState.password : password;
+
         serverConnection.validateUsernamePassword(res => {
             if (res.status === 200) {
                 alert("התחברת בהצלחה");
@@ -69,7 +73,7 @@ export default function Login(props) {
             if (callback) {
                 callback();
             }
-        }, userName, password, err => {
+        }, _userName, _password, err => {
             if (err) {
                 alert("שם משתמש או סיסמה לא נכונים");
                 if (err.code) {
@@ -98,32 +102,6 @@ export default function Login(props) {
 
         return tempUser;
     }
-
-    const registerUser = (callback = null, err_callback = null) => {
-            const tempUser = getUserFromState();
-            serverConnection.createUser(res => {
-                if (res.status.toString()[0] === "2") {
-                    alert("נרשמת בהצלחה");
-                    validateUsernamePassword();
-                }
-                if (callback) {
-                    callback();
-                }
-            }, tempUser, err => {
-                if (err) {
-                    alert("אירעה שגיאה בהרשמה");
-                    if (err.code) {
-                        console.error(err.code);
-                    }
-                    if (err.message) {
-                        console.error(err.message);
-                    }
-                    if (err.stack) {
-                        console.error(err.stack);
-                    }
-                }
-            });
-    };
 
     const onLogin = () => {
         // axios.post('http://' + ServerIp + '/login',
@@ -154,26 +132,6 @@ export default function Login(props) {
         // }
 
         validateUsernamePassword();
-    }
-
-    const onRegistration = () => {
-        // axios.post('http://' + ServerIp + '/login',
-        //     {
-        //         name: name,
-        //         password: password
-        //     })
-        //     .then(res => {
-        //         if (res.data.token) {
-        //             alert("התחברת בהצלחה");
-        //             //   setAuth(res.data.token);
-        //         }
-        //         else {
-        //             alert("שם משתמש או סיסמה לא נכונים");
-        //         }
-        //     })
-        //     .catch(err => {
-        //     })
-        registerUser();
     }
 
     const stopBubbling = (event) => {
@@ -209,37 +167,7 @@ export default function Login(props) {
                 </div>
                 <button type="submit" className="btn btn-secondary btn-lg mt-4" onClick={onLogin}>{dictionary.connect}</button>
             </div>
-            <div>
-                <Modal
-                    show={showRegistration} onHide={closeRegistration}
-                    className="Registration"
-                    aria-labelledby="contained-modal-title-vcenter"
-                    centered
-                >
-                    <Modal.Header className="header">
-                        <Modal.Title>{dictionary.registration}</Modal.Title>
-                        <Modal.Title className="close-modal-btn" onClick={closeRegistration}>x</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body className="body">
-                        <label>{dictionary.registration_text + ':'}</label>
-                        <div className="form">
-                            <label>{dictionary.user + ':'}</label>
-                            <input name='username' onChange={e => setUserName(e.target.value)} required />
-                            <label>{dictionary.password + ':'}</label>
-                            <input name='password' type='password' onChange={e => setPassword(e.target.value)} required />
-                            <label>{dictionary.phone + ':'}</label>
-                            <input name='phone' type="number" onChange={e => setPhone(e.target.value)} required />
-                            <label>{dictionary.unit + ':'}</label>
-                            <input name='unitname' onChange={e => setUnitName(e.target.value)} required />
-                            <label>{dictionary.role + ':'}</label>
-                            <input name='role' onChange={e => setRole(e.target.value)} required />
-                        </div>
-                    </Modal.Body>
-                    <Modal.Footer className="footer">
-                        <Button className="btn btn-success" onClick={onRegistration}>{dictionary.save} </Button>
-                    </Modal.Footer>
-                </Modal>
-            </div>
+            <Registration isOpen={showRegistration} onRequestClose={closeRegistration} serverConnection={serverConnection} afterRegistrationCallback={validateUsernamePassword}/>
         </div>
     )
 }
