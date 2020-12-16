@@ -22,7 +22,9 @@ export default function Registration(props) {
     const [unitName, setUnitName] = useState('');
 
     const dictionary = {
-        user: 'שם משתמש',
+        first_name: 'שם פרטי', 
+        last_name: 'שם משפחה', 
+        username: 'שם משתמש',
         password: 'סיסמה',
         registration: 'הרשמה',
         connect: 'התחבר',
@@ -93,16 +95,20 @@ export default function Registration(props) {
             <Modal.Body className="body">
                 <label>{dictionary.registration_text + ':'}</label>
                 <div className="form">
-                    <label>{dictionary.user + ':'}</label>
-                    <input name='username' onChange={e => setUserName(e.target.value)} required />
+                    <label>{dictionary.first_name + ':'}</label>
+                    <input name='first_name' value={firstName} onChange={e => setFirstName(e.target.value)} required />
+                    <label>{dictionary.last_name + ':'}</label>
+                    <input name='last_name' value={lastName} onChange={e => setLastName(e.target.value)} required />
+                    <label>{dictionary.username + ':'}</label>
+                    <input name='username' value={userName} onChange={e => setUserName(e.target.value)} required />
                     <label>{dictionary.password + ':'}</label>
-                    <input name='password' type='password' onChange={e => setPassword(e.target.value)} required />
+                    <input name='password' value={password} type='password' onChange={e => setPassword(e.target.value)} required />
                     <label>{dictionary.phone + ':'}</label>
-                    <input name='phone' type="number" onChange={e => setPhone(e.target.value)} required />
+                    <input name='phone' value={phone} type="number" onChange={e => setPhone(e.target.value)} required />
                     <label>{dictionary.unit + ':'}</label>
-                    <input name='unitname' onChange={e => setUnitName(e.target.value)} required />
+                    <input name='unitname' value={unitName} onChange={e => setUnitName(e.target.value)} required />
                     <label>{dictionary.role + ':'}</label>
-                    <input name='role' onChange={e => setRole(e.target.value)} required />
+                    <input name='role' value={role} onChange={e => setRole(e.target.value)} required />
                 </div>
             </Modal.Body>
             <Modal.Footer className="footer">
