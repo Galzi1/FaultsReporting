@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom'
 
 const AuthContext = React.createContext();
 
-const permission = {
+export const permission = {
     ADMIN: "admin",
     GUEST: "guest",
 }

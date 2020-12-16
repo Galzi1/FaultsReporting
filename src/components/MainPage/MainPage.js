@@ -2,19 +2,18 @@ import React, { useState, useEffect } from 'react';
 import './MainPage.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
-import ServerConnection from '../../utils/ServerConnection';
 import logoRapat from '../../Images/mantak.png'
 import ReportsTable from '../ReportsTable/ReportsTable';
 import Clock from 'react-live-clock';
 import Users from '../../data/users.json';
 import { getAuth, logOut } from '../Login/AuthApi'
 import { get } from 'ol/proj';
-const server_ip = "http://127.0.0.1"
-const server_port = "4000"
 
-export default function MainPage() {
+export default function MainPage(props) {
     const self = document.getElementById("main-page"); //Getting current element manually as no better method found
-    const serverConnection = new ServerConnection(server_ip, server_port);
+    const serverConnection = props.serverConnection;
+
+    const loggedUserName = sessionStorage.getItem("loggedUser");
 
     const dictionary = {
         user:"Yossi K",
@@ -111,7 +110,7 @@ export default function MainPage() {
                     <Clock className={'clock white_text'} format={'HH:mm:ss'} ticking={true} />
                 </div>
                 <div className="nav">
-                    <p className={"white_text"}>{dictionary.user}</p>
+                    <p className={"white_text"}>{loggedUserName}</p>
                     <button className="navbar-toggler menu" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <FontAwesomeIcon icon={faBars} />
                     </button>
