@@ -100,13 +100,13 @@ export default function ReportsTable(props) {
             <TableHead style={{ backgroundColor: "#1B507C" }}>
                 <TableRow>
                 <StyledTableCell align="center" scope="col"></StyledTableCell>
-                    <StyledTableCell align="center" scope="col">#</StyledTableCell>
-                    <StyledTableCell align="center" scope="col">תקציר התקלה</StyledTableCell>
+                    <StyledTableCell align="center" scope="col">תקציר</StyledTableCell>
+                    <StyledTableCell align="center" scope="col">תאריך התקלה</StyledTableCell>
                     <StyledTableCell align="center" scope="col">תאריך דיווח</StyledTableCell>
                     <StyledTableCell align="center" scope="col">עדיפות</StyledTableCell>
-                    <StyledTableCell align="center" scope="col">סוג המדווח</StyledTableCell>
                     <StyledTableCell align="center" scope="col">המדווח</StyledTableCell>
                     <StyledTableCell align="center" scope="col">פלטפורמה</StyledTableCell>
+                    <StyledTableCell align="center" scope="col">מערכת</StyledTableCell>
                     <StyledTableCell align="center" scope="col">סטאטוס</StyledTableCell>
                 </TableRow>
             </TableHead>)

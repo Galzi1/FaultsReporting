@@ -16,13 +16,13 @@ export default function ReportItem(props) {
                     <FontAwesomeIcon icon={faEye}/>
                 </Fab>
             </StyledTableCell>
-            <StyledTableCell align="center" ><span className="HyperlinkText" onClick={() => {onSelectCallback(report)}}>{report._id}</span></StyledTableCell>
             <StyledTableCell align="center" >{report.summary}</StyledTableCell>
+            <StyledTableCell align="center" >{new Date(report.fault_date).toLocaleDateString("he-IL", "short") || "-"}</StyledTableCell>
             <StyledTableCell align="center" >{new Date(report.reporting_date).toLocaleDateString("he-IL", "short") || "-"}</StyledTableCell>
             <StyledTableCell align="center" >{report.priority || "טרם הוגדר"}</StyledTableCell>
-            <StyledTableCell align="center" >{"-"}</StyledTableCell>
             <StyledTableCell align="center" >{report.reporter_username}</StyledTableCell>
             <StyledTableCell align="center" >{report.platform}</StyledTableCell>
+            <StyledTableCell align="center" >{report.system}</StyledTableCell>
             <StyledTableCell align="center" >{report.status || "טרם עודכן"}</StyledTableCell>
         </StyledTableRow >
     )

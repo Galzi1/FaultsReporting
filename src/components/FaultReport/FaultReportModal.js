@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../MainPage/MainPage.css';
 import ReportModal from './ReportModal';
 import FaultReportForm from './FaultReportForm';
@@ -25,7 +25,7 @@ export default function FaultReportModal(props) {
     // Handle Props
     const serverConnection = props.serverConnection;
     const reportDetails = props.reportDetails ? props.reportDetails : emptyDetails;
-    const existingReport = props.reportDetails;
+    const isReportExist = !!props.reportDetails;
     const isModalOpen = props.isModalOpen;
     const closeModal = props.closeModal;
     const platforms = props.platforms;
@@ -38,10 +38,12 @@ export default function FaultReportModal(props) {
     ////
 
     // State
-    const [titleText, setTitleText] = useState(existingReport 
-        ? "צפייה בתקלה"
-        : "דיווח תקלה");
+    const [titleText, setTitleText] = useState("דיווח תקלה");
     ////
+
+    useEffect(() => {
+        setTitleText(isReportExist ? "צפייה בתקלה" : "דיווח תקלה");
+    }, [isReportExist, isModalOpen]);
 
     const onEditingEnabled = () => {
         setTitleText("עריכת תקלה");
@@ -55,7 +57,7 @@ export default function FaultReportModal(props) {
         systems = {systems} 
         closeModal = {closeModal} 
         onEditingEnabled = {onEditingEnabled} 
-        existingReport = {existingReport} 
+        isReportExist = {isReportExist} 
     />;
     
     return (
