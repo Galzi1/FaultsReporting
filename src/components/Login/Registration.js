@@ -4,8 +4,8 @@ import Button from 'react-bootstrap/esm/Button';
 
 
 export default function Registration(props) {
-    var rtlDetect = require('rtl-detect');
-    const isRightToLeft = rtlDetect.isRtlLang(navigator.language);
+    // var rtlDetect = require('rtl-detect');
+    // const isRightToLeft = rtlDetect.isRtlLang(navigator.language);
 
     // Handle Props
     const isOpen = props.isOpen;

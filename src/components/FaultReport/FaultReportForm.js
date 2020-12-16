@@ -3,7 +3,7 @@ import '../MainPage/MainPage.css';
 import './FaultReport.css';
 import formatISODate from '../../utils/common';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUpload, faLongArrowAltRight, faLongArrowAltLeft, faEdit, faSave } from '@fortawesome/free-solid-svg-icons';
+import { faLongArrowAltRight, faLongArrowAltLeft, faEdit, faSave } from '@fortawesome/free-solid-svg-icons';
 
 export default function FaultReportForm(props) {
     const serverConnection = props.serverConnection;
@@ -46,7 +46,7 @@ export default function FaultReportForm(props) {
     const [submitButtonClass, setSubmitButtonClass] = useState('left-button ' + (!!existingReport ? hiddenButtonClass : displayedButtonClass));
 
     const onTempSolutionFoundCheckClicked = (e) => {
-        let value = e.target.value === "on";
+        // let value = e.target.value === "on";
         const newTempSolutionFoundValue = tempSolutionFound  ? !tempSolutionFound : true
         setTempSolutionFound(newTempSolutionFoundValue);
         document.getElementById("temp-solution-textarea").disabled = tempSolutionFound;

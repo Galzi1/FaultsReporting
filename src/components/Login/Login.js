@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import logoRapat from '../../Images/mantak.png'
 import './Login.css'
-import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
-// import axios from 'axios'
 import { useAuthContext, permission } from './AuthApi';
-// import {useHistory} from "react-router-dom";
 import Registration from './Registration';
 
 export default function Login(props) {
-    // const history = useHistory();
     const serverConnection = props.serverConnection;
 
     const dictionary = {
@@ -23,17 +18,13 @@ export default function Login(props) {
         phone: "נייד",
         registration_text: "נא למלא כל הפרטים"
     };
+
     const ENTER_KEY = "Enter";
     const ENTER_KEY_CODE = 13;
 
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
     const [password, setPassword] = useState('');
     const [showRegistration, setShowRegistration] = useState(false);
     const [userName, setUserName] = useState('');
-    const [phone, setPhone] = useState('');
-    const [role, setRole] = useState('');
-    const [unitName, setUnitName] = useState('');
 
     const { setAuth } = useAuthContext();
 
@@ -89,48 +80,7 @@ export default function Login(props) {
         });
     };
 
-    const getUserFromState = () => {
-        var tempUser = {
-            first_name: firstName, 
-            last_name: lastName,
-            username: userName, 
-            password: password, 
-            phone_number: phone, 
-            unit: unitName,  
-            role: role
-        }
-
-        return tempUser;
-    }
-
     const onLogin = () => {
-        // axios.post('http://' + ServerIp + '/login',
-        //     {
-        //         name: name,
-        //         password: password
-        //     })
-        //     .then(res => {
-        //         if (res.data.token) {
-        //             alert("התחברת בהצלחה");
-        //             //   setAuth(res.data.token);
-        //         }
-        //         else {
-        //             alert("שם משתמש או סיסמה לא נכונים");
-        //         }
-        //     })
-        //     .catch(err => {
-        //     })
-
-        // if (name === "admin" && password === "12345") {
-        //     alert("התחברת בהצלחה");
-        //     setAuth(
-        //         permission.ADMIN
-        //     )
-        // }
-        // else {
-        //     alert("שם משתמש או סיסמה לא נכונים");
-        // }
-
         validateUsernamePassword();
     }
 

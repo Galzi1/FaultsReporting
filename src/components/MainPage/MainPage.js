@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './MainPage.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import logoRapat from '../../Images/mantak.png'
 import ReportsTable from '../ReportsTable/ReportsTable';
 import Clock from 'react-live-clock';
-import Users from '../../data/users.json';
-import { getAuth, logOut } from '../Login/AuthApi'
-import { get } from 'ol/proj';
+// import { logOut } from '../Login/AuthApi'
 
 export default function MainPage(props) {
     const self = document.getElementById("main-page"); //Getting current element manually as no better method found
@@ -16,22 +14,8 @@ export default function MainPage(props) {
     const loggedUserName = sessionStorage.getItem("loggedUser");
 
     const dictionary = {
-        user:"Yossi K",
         system_name: "מערכת דיווח תקלות",
         new_fault: "פתח תקלה חדשה"
-    }
-
-    const emptyDetails = {
-        report_description: '',
-        report_fault_date: null,
-        report_location: '',
-        report_platform: 0,
-        report_platform_num: 0,
-        report_reporting_date: null,
-        report_reporter_username: '',
-        report_sub_platform: 0,
-        report_system: 0,
-        report_summary: ''
     }
 
     //State
@@ -39,10 +23,7 @@ export default function MainPage(props) {
     const [platforms, setPlatforms] = useState([]);
     const [subPlatforms, setSubPlatforms] = useState([]);
     const [systems, setSystems] = useState([]);
-    const [LoginId, setLoginId] = useState('')
-    const [userName, setUserName] = useState('')
 
-    const auth = getAuth;
     ////
 
     const getReports = (callback = null, err_callback = null) => {
@@ -87,18 +68,6 @@ export default function MainPage(props) {
                 callback();
             }
         });
-    }
-
-    useEffect(() => {
-        setLoginId(getAuth.id);
-    })
-
-    const getUserName = () => {
-        Users.forEach(user => {
-            if (user.id === LoginId) {
-                setUserName(user.name)
-            }
-        })
     }
 
     return (
