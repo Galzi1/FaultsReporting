@@ -63,10 +63,13 @@ export default function Registration(props) {
                 }
             }, tempUser, err => {
                 if (err) {
-                    alert("אירעה שגיאה בהרשמה");
-                    if (err.code) {
-                        console.error(err.code);
+                    if (!!err.response && err.response.status === 409) {
+                        alert("המשתמש כבר קיים במערכת, אנא התחבר");
                     }
+                    else {
+                        alert("אירעה שגיאה בהרשמה");
+                    }
+                    
                     if (err.message) {
                         console.error(err.message);
                     }
