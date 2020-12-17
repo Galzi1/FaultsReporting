@@ -31,6 +31,7 @@ export default function ReportsTable(props) {
     const [selectedReport, setSelectedReport] = useState(null);
     const [isNewReportModalOpen, setIsNewReportModalOpen] = useState(false);
     const [isViewEditReportModalOpen, setIsViewEditReportModalOpen] = useState(false);
+    const [tableTitle, setTableTitle] = useState('כל התקלות');
     ////
 
     const dictionary = {
@@ -116,7 +117,7 @@ export default function ReportsTable(props) {
         <div id="reports-table">
             <div className="Header">
                 <FontAwesomeIcon className="reload_icon" icon={faSyncAlt} size="2x" />
-                <span>{dictionary.newReport}</span>
+                <span>{tableTitle}</span>
                 <Fab aria-label="add" size="small" className="add_button" onClick={openNewReportModal}>
                     <FontAwesomeIcon size="xs" icon={faPlus} />
                 </Fab>

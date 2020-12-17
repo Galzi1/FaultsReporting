@@ -21,6 +21,8 @@ export default function FaultReportForm(props) {
 
     const displayedButtonClass = "btn btn-primary";
     const hiddenButtonClass = "btn btn-primary invisible";
+    
+    const loggedUserName = sessionStorage.getItem("loggedUser");
 
     const [appearsInErrorsFile, setAppearsInErrorsFile] = useState(false);
     const [description, setDescription] = useState('');
@@ -98,6 +100,8 @@ export default function FaultReportForm(props) {
     }
 
     useEffect(() => {
+        setReporterUsername(loggedUserName);
+
         if (reportDetails) {
             initDetails(reportDetails);
         }
@@ -105,6 +109,7 @@ export default function FaultReportForm(props) {
         if (!isReportExist) {
             enableFormControls();
         }
+
     }, []);
 
     const initDetails = (_details) => {

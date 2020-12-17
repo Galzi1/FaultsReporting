@@ -73,16 +73,23 @@ export default function MainPage(props) {
     return (
         <div className="mainPage">
             <div>
-                <div className="header">
-                    <img src={logoRapat} alt="Logo" className="logo"></img>
-                    <p className={"white_text"}>{dictionary.system_name}</p>
-                    <Clock className={'clock white_text'} format={'HH:mm:ss'} ticking={true} />
-                </div>
-                <div className="nav">
-                    <p className={"white_text"}>{loggedUserName}</p>
-                    <button className="navbar-toggler menu" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <FontAwesomeIcon icon={faBars} />
-                    </button>
+                <div className="container-fluid header ">
+                    <div className="row">
+                        <div className="col menu-button-div">
+                            <button type="button" className="navbar-toggler menu white-text vertical-center" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                                <FontAwesomeIcon icon={faBars} />
+                            </button>
+                        </div>
+                        <div className="col">
+                            <p className="white-text">{dictionary.system_name}</p>
+                        </div>
+                        <div className="col">
+                            <div className="horizontal-group">
+                                <p className="white-text normal-text">{loggedUserName}</p>
+                                <img src={logoRapat} alt="Logo" className="logo"></img>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div>
