@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 // import axios from 'axios'
 import MainPage from './components/MainPage/MainPage'
 import Login from './components/Login/Login'
@@ -11,8 +11,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect,
-  useHistory
+  Redirect
 } from "react-router-dom";
 
 export default function App() {

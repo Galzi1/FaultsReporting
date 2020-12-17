@@ -3,7 +3,7 @@ import '../MainPage/MainPage.css';
 import './FaultReport.css';
 import formatISODate from '../../utils/common';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUpload, faLongArrowAltRight, faLongArrowAltLeft, faEdit, faSave } from '@fortawesome/free-solid-svg-icons';
+import { faLongArrowAltRight, faLongArrowAltLeft, faEdit, faSave } from '@fortawesome/free-solid-svg-icons';
 
 export default function FaultReportForm(props) {
     const serverConnection = props.serverConnection;
@@ -14,13 +14,15 @@ export default function FaultReportForm(props) {
     
     const closeModal = props.closeModal;
     const onEditingEnabled = props.onEditingEnabled;
-    const existingReport = props.existingReport;
+    const isReportExist = props.isReportExist;
 
     const displayedFormClass = "form-wrapper";
     const hiddenFormClass = "form-wrapper d-none";
 
     const displayedButtonClass = "btn btn-primary";
     const hiddenButtonClass = "btn btn-primary invisible";
+    
+    const loggedUserName = sessionStorage.getItem("loggedUser");
 
     const [appearsInErrorsFile, setAppearsInErrorsFile] = useState(false);
     const [description, setDescription] = useState('');
@@ -42,11 +44,11 @@ export default function FaultReportForm(props) {
 
     const [page1Class, setPage1Class] = useState(displayedFormClass);
     const [page2Class, setPage2Class] = useState(hiddenFormClass);
-    const [editButtonClass, setEditButtonClass] = useState('center-button ' + (!!existingReport ? displayedButtonClass : hiddenButtonClass));
-    const [submitButtonClass, setSubmitButtonClass] = useState('left-button ' + (!!existingReport ? hiddenButtonClass : displayedButtonClass));
+    const [editButtonClass, setEditButtonClass] = useState('center-button ' + (isReportExist ? displayedButtonClass : hiddenButtonClass));
+    const [submitButtonClass, setSubmitButtonClass] = useState('left-button ' + (isReportExist ? hiddenButtonClass : displayedButtonClass));
 
     const onTempSolutionFoundCheckClicked = (e) => {
-        let value = e.target.value === "on";
+        // let value = e.target.value === "on";
         const newTempSolutionFoundValue = tempSolutionFound  ? !tempSolutionFound : true
         setTempSolutionFound(newTempSolutionFoundValue);
         document.getElementById("temp-solution-textarea").disabled = tempSolutionFound;
@@ -67,7 +69,7 @@ export default function FaultReportForm(props) {
     const submitReport = () => {
         setTempSolutionDescription(cachedTempSolutionDescription);
         const tempDetails = getDetailsFromState();
-        if (!!existingReport) {
+        if (isReportExist) {
             if (!reportDetails || !reportDetails._id) {
                 console.error("Got existingReport == true but reportDetails or its _id is null");
                 return;
@@ -98,13 +100,16 @@ export default function FaultReportForm(props) {
     }
 
     useEffect(() => {
+        setReporterUsername(loggedUserName);
+
         if (reportDetails) {
             initDetails(reportDetails);
         }
 
-        if (existingReport === void 0) {
+        if (!isReportExist) {
             enableFormControls();
         }
+
     }, []);
 
     const initDetails = (_details) => {
