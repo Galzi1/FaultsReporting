@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Modal from 'react-bootstrap/esm/Modal';
 import Button from 'react-bootstrap/esm/Button';
-
+import ServerConnection from '../../utils/ServerConnection';
 
 export default function Registration(props) {
     // var rtlDetect = require('rtl-detect');
@@ -10,7 +10,6 @@ export default function Registration(props) {
     // Handle Props
     const isOpen = props.isOpen;
     const onRequestClose = props.onRequestClose;
-    const serverConnection = props.serverConnection;
     const afterRegistrationCallback = props.afterRegistrationCallback;
 
     const [firstName, setFirstName] = useState('');
@@ -51,7 +50,7 @@ export default function Registration(props) {
 
     const registerUser = (callback = null, err_callback = null) => {
             const tempUser = getUserFromState();
-            serverConnection.createUser(res => {
+            ServerConnection.createUser(res => {
                 if (res.status.toString()[0] === "2") {
                     alert("נרשמת בהצלחה");
                     if (afterRegistrationCallback) {

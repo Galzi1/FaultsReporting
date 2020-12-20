@@ -10,13 +10,12 @@ import './ReportsTable.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 import ReportItem from './ReportItem';
-import {StyledTableCell, TableWrapperStyle} from '../../styles/TableStyle'
+import {StyledTableCell, TableWrapperStyle} from '../../styles/TableStyle';
 
 export default function ReportsTable(props) {
 
     // Handle Props
     const getReports = props.getReports;
-    const serverConnection = props.serverConnection;
     const tableData = props.tableData;
     const platforms = props.platforms;
     const subPlatforms = props.subPlatforms;
@@ -132,7 +131,6 @@ export default function ReportsTable(props) {
             </TableContainer>
             <FaultReportModal
                     id="fault-report-modal"
-                    serverConnection={serverConnection}
                     isModalOpen={isNewReportModalOpen}
                     closeModal={closeNewReportModal}
                     platforms = {platforms} 
@@ -144,7 +142,6 @@ export default function ReportsTable(props) {
                     getSubPlatforms = {getSubPlatforms}/>
             <FaultReportModal 
                     id="view-edit-report-modal" 
-                    serverConnection={serverConnection}
                     reportDetails={selectedReport} 
                     isModalOpen={isViewEditReportModalOpen} 
                     closeModal={closeViewEditReportModal} 

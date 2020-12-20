@@ -4,12 +4,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import logoRapat from '../../Images/mantak.png'
 import ReportsTable from '../ReportsTable/ReportsTable';
-import Clock from 'react-live-clock';
 // import { logOut } from '../Login/AuthApi'
+import ServerConnection from '../../utils/ServerConnection';
 
 export default function MainPage(props) {
     const self = document.getElementById("main-page"); //Getting current element manually as no better method found
-    const serverConnection = props.serverConnection;
 
     const loggedUserName = sessionStorage.getItem("loggedUser");
 
@@ -27,7 +26,7 @@ export default function MainPage(props) {
     ////
 
     const getReports = (callback = null, err_callback = null) => {
-        serverConnection.getReports(res => {
+        ServerConnection.getReports(res => {
             const reports = res.data;
             console.log("Reports: " + reports);
             setTableData(reports);
@@ -38,7 +37,7 @@ export default function MainPage(props) {
     }
 
     const getSystems = (callback = null) => {
-        serverConnection.getSystems(res => {
+        ServerConnection.getSystems(res => {
             const systems = res.data;
             console.log("Systems: " + systems);
             setSystems(systems);
@@ -49,7 +48,7 @@ export default function MainPage(props) {
     }
 
     const getPlatforms = (callback = null) => {
-        serverConnection.getPlatforms(res => {
+        ServerConnection.getPlatforms(res => {
             const platforms = res.data;
             console.log("Platforms: " + platforms);
             setPlatforms(platforms);
@@ -60,7 +59,7 @@ export default function MainPage(props) {
     }
 
     const getSubPlatforms = (callback = null) => {
-        serverConnection.getSubPlatforms(res => {
+        ServerConnection.getSubPlatforms(res => {
             const subPlatforms = res.data;
             console.log("Sub-Platforms: " + subPlatforms);
             setSubPlatforms(subPlatforms);
@@ -95,7 +94,6 @@ export default function MainPage(props) {
             <div>
                 <ReportsTable
                     getReports={getReports}
-                    serverConnection={serverConnection}
                     tableData={tableData}
                     platforms={platforms}
                     subPlatforms={subPlatforms}

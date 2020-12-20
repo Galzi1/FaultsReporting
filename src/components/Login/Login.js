@@ -3,9 +3,9 @@ import logoRapat from '../../Images/mantak.png'
 import './Login.css'
 import { useAuthContext, permission } from './AuthApi';
 import Registration from './Registration';
+import ServerConnection from '../../utils/ServerConnection';
 
 export default function Login(props) {
-    const serverConnection = props.serverConnection;
 
     const dictionary = {
         user: 'שם משתמש',
@@ -45,7 +45,7 @@ export default function Login(props) {
         const _userName = !!userState ? userState.username : userName;
         const _password = !!userState ? userState.password : password;
 
-        serverConnection.validateUsernamePassword(res => {
+        ServerConnection.validateUsernamePassword(res => {
             if (res.status === 200) {
                 alert("התחברת בהצלחה");
                 const loggedUser = res.data;
@@ -117,7 +117,7 @@ export default function Login(props) {
                 </div>
                 <button type="submit" className="btn btn-secondary btn-lg mt-4" onClick={onLogin}>{dictionary.connect}</button>
             </div>
-            <Registration isOpen={showRegistration} onRequestClose={closeRegistration} serverConnection={serverConnection} afterRegistrationCallback={validateUsernamePassword}/>
+            <Registration isOpen={showRegistration} onRequestClose={closeRegistration} afterRegistrationCallback={validateUsernamePassword}/>
         </div>
     )
 }
