@@ -24,7 +24,7 @@ export const getAuth = () => {
 }
 export const logOut = () => {
     localStorage.removeItem('auth');
-    window.history.go('/login')
+    window.location.replace('/login')
 }
 
 export const AuthProvider = ({ children }) => {
