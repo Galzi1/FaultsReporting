@@ -4,9 +4,9 @@ import './FaultReport.css';
 import formatISODate from '../../utils/common';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLongArrowAltRight, faLongArrowAltLeft, faEdit, faSave } from '@fortawesome/free-solid-svg-icons';
+import ServerConnection from '../../utils/ServerConnection';
 
 export default function FaultReportForm(props) {
-    const serverConnection = props.serverConnection;
     const reportDetails = props.reportDetails;
     const platforms = props.platforms;
     const subPlatforms = props.subPlatforms;
@@ -74,7 +74,7 @@ export default function FaultReportForm(props) {
                 console.error("Got existingReport == true but reportDetails or its _id is null");
                 return;
             }
-            serverConnection.updateReport((res) => {
+            ServerConnection.updateReport((res) => {
                 if (res.status.toString()[0] === "2") {
                     alert("התקלה עודכנה בהצלחה!");
                 }
@@ -85,7 +85,7 @@ export default function FaultReportForm(props) {
             }, reportDetails._id, tempDetails);
         }
         else {
-            serverConnection.addReport((res) => {
+            ServerConnection.addReport((res) => {
                 if (res.status.toString()[0] === "2") {
                     alert("התקלה דווחה בהצלחה!");
                 }

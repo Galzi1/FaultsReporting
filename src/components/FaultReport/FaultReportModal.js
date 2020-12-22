@@ -23,7 +23,6 @@ export default function FaultReportModal(props) {
     }
 
     // Handle Props
-    const serverConnection = props.serverConnection;
     const reportDetails = props.reportDetails ? props.reportDetails : emptyDetails;
     const isReportExist = !!props.reportDetails;
     const isModalOpen = props.isModalOpen;
@@ -50,7 +49,6 @@ export default function FaultReportModal(props) {
     }
 
     const FormComponent = <FaultReportForm 
-        serverConnection = {serverConnection} 
         reportDetails = {reportDetails} 
         platforms = {platforms} 
         subPlatforms = {subPlatforms} 
