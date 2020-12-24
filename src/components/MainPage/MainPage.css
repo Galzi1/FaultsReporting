@@ -95,6 +95,7 @@ div.horizontal-group > img {
 
 div.menu-button-div {
     text-align: right;
+    display: flex;
 }
 
 .vertical-center {
