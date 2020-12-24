@@ -1,11 +1,12 @@
 import React from 'react';
 // import axios from 'axios'
-import MainPage from './components/MainPage/MainPage'
-import Login from './components/Login/Login'
+import MainPage from './components/MainPage/MainPage';
+import Login from './components/Login/Login';
+import Page404 from './components/Page404/Page404';
 // import ServerIp from './Config.js'
-import { useAuthContext, AuthProvider } from './components/Login/AuthApi'
+import { useAuthContext, AuthProvider } from './components/Login/AuthApi';
 import './App.css';
-import '@fortawesome/fontawesome-free/css/all.css'
+import '@fortawesome/fontawesome-free/css/all.css';
 import {
   BrowserRouter as Router,
   Switch,
@@ -38,9 +39,12 @@ export default function App() {
             <Route path='/login'>
               <Login/>
             </Route>
-            <ProtectedRoute path='/'>
+            <ProtectedRoute exact path='/'>
               <MainPage/>
             </ProtectedRoute>
+            <Route>
+              <Page404/>
+            </Route>
           </Switch>
         </div>
       </AuthProvider>
