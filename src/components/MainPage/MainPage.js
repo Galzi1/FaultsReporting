@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import logoRapat from '../../Images/mantak.png'
 import ReportsTable from '../ReportsTable/ReportsTable';
+import MainMenu from '../MainMenu/MainMenu';
 // import { logOut } from '../Login/AuthApi'
 import ServerConnection from '../../utils/ServerConnection';
 
@@ -74,10 +75,18 @@ export default function MainPage(props) {
             <div>
                 <div className="container-fluid header ">
                     <div className="row">
-                        <div className="col menu-button-div">
-                            <button type="button" className="navbar-toggler menu white-text vertical-center" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        {/* <div className="col menu-button-div dropdown">
+                            <button id="mainMenuButton" type="button" className="btn dropdown-toggle menu white-text vertical-center" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <FontAwesomeIcon icon={faBars} />
                             </button>
+                            <div class="dropdown-menu" aria-labelledby="mainMenuButton">
+                                <a class="dropdown-item" href="#">Action</a>
+                                <a class="dropdown-item" href="#">Another action</a>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                            </div>
+                        </div> */}
+                        <div className="col menu-button-div">
+                            <MainMenu/>
                         </div>
                         <div className="col">
                             <p className="white-text">{dictionary.system_name}</p>
